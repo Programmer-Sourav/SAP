@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">CourseDetails</string>
+    <string name="about_us">About Us</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="application_filup">Application Form</string>
+    <string name="course_details">Course Details</string>
+    <string name="user_image">Welcome User</string>
+    <string name="parent_name">Parent/Guardian Name:</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="student_name">Student Name</string>
+    <string name="school_name">School Name</string>
+    <string name="home_address">Home Address</string>
+    <string name="city_name">City\n</string>
+    <string name="state_name">State</string>
+    <string name="street_name">Street Address 1</string>
+    <string name="street_address">Street Address 2</string>
+    <string name="pin_code">Pin Code</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="phone_number_input">Enter your Phone Number</string>
+    <string name="twelfth_marks">12th Class Marks</string>
+    <string name="tenth_marks">Madhyamik Marks</string>
+    <string name="joint_marks">Entrance Test Marks Details</string>
+    <string name="joint_full_marks">Enter Rank</string>
+    <string name="course_willing">Course willing to Study</string>
+    <string name="course_willing_to_take">Engineering/Medical/Nursing/B-Pharm</string>
+    <string name="btn_text">Submit Form</string>
+    <string name="available_colleges">Available Colleges</string>
+    <string name="available_courses">Courses Available</string>
+    <string name="upload_button">Upload Documents</string>
+    <string name="no_college_selected">Please Select A College To View The Courses.</string>
+
+</resources>

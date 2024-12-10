@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.service.appdev.coursedetails.viewmodel.ApplicationFormViewModel" />
+    </data>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="40sp"
+    android:gravity="center"
+    android:layout_marginTop="16dp"
+    android:id="@+id/header"
+    android:textStyle="bold"
+    android:textSize="20sp"
+    android:textColor="#000000"
+    android:text="@string/application_filup"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/student_name"
+        android:text="@string/student_name"
+        android:gravity="center"
+        android:layout_margin="16sp"
+        android:layout_below="@+id/header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:id="@+id/student_full_name"
+        android:layout_below="@+id/student_name">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:id="@+id/student_first_name"
+            android:background="@drawable/edittext_bg"
+            android:hint="@string/first_name"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:id="@+id/student_last_name"
+            android:hint="@string/last_name"
+            android:importantForAutofill="no"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/edittext_bg"
+            android:inputType="text" />
+
+    </LinearLayout>
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/parent_name"
+    android:text="@string/parent_name"
+    android:gravity="center"
+    android:layout_margin="16sp"
+    android:layout_below="@+id/student_full_name"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:orientation="horizontal"
+    android:id="@+id/parent_full_name"
+    android:weightSum="2"
+    android:layout_below="@+id/parent_name">
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:id="@+id/parent_first_name"
+        android:background="@drawable/edittext_bg"
+        android:hint="@string/first_name"/>
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:hint="@string/last_name"
+        android:id="@+id/parent_last_name"
+        android:importantForAutofill="no"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/edittext_bg"
+        android:inputType="text" />
+
+</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/school_name"
+        android:layout_margin="16dp"
+        android:id="@+id/school_name"
+        android:layout_below="@+id/parent_full_name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="@string/school_name"
+        android:importantForAutofill="no"
+        android:background="@drawable/edittext_bg"
+        android:layout_below="@+id/school_name"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/full_school_name"
+        android:inputType="text" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/twelfth_marks"
+        android:layout_margin="16dp"
+        android:id="@+id/twelfth_marks"
+        android:layout_below="@+id/full_school_name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="@string/twelfth_marks"
+        android:importantForAutofill="no"
+        android:background="@drawable/edittext_bg"
+        android:layout_below="@+id/twelfth_marks"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/full_twelfth_marks"
+        android:inputType="number" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tenth_marks"
+        android:layout_margin="16dp"
+        android:id="@+id/tenth_marks"
+        android:layout_below="@+id/full_twelfth_marks"/>
+
+    <EditText
+        android:id="@+id/full_tenth_marks"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tenth_marks"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="@string/tenth_marks"
+        android:importantForAutofill="no"
+        android:inputType="number" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/joint_marks"
+        android:layout_margin="16dp"
+        android:id="@+id/joint_marks"
+        android:layout_below="@+id/full_tenth_marks"/>
+    <Spinner
+        android:id="@+id/my_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:spinnerMode="dropdown"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/edittext_bg"
+        android:layout_below="@id/joint_marks"
+        android:entries="@array/dropdown_items" />
+
+    <EditText
+        android:id="@+id/full_joint_marks"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/my_spinner"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="@string/joint_full_marks"
+        android:importantForAutofill="no"
+        android:inputType="number" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_address"
+        android:text="@string/home_address"
+        android:gravity="center"
+        android:layout_margin="16sp"
+        android:layout_below="@+id/full_joint_marks"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:id="@+id/home_address_container"
+        android:layout_below="@+id/home_address">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="@string/street_name"
+            android:importantForAutofill="no"
+            android:background="@drawable/edittext_bg"
+            android:id="@+id/street_address1"
+            android:inputType="text" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="@string/street_address"
+            android:importantForAutofill="no"
+            android:background="@drawable/edittext_bg"
+            android:id="@+id/street_address2"
+            android:layout_marginTop="8dp"
+            android:inputType="text" />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:weightSum="2"
+          android:layout_marginTop="8dp"
+          android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:id="@+id/city"
+            android:background="@drawable/edittext_bg"
+            android:hint="@string/city_name"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:id="@+id/state"
+            android:hint="@string/state_name"
+            android:importantForAutofill="no"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/edittext_bg"
+            android:inputType="text" />
+
+      </LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="@string/pin_code"
+            android:importantForAutofill="no"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittext_bg"
+            android:id="@+id/pincode"
+            android:inputType="number" />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/phone_number"
+        android:layout_margin="16dp"
+        android:id="@+id/phone_number"
+        android:layout_below="@+id/home_address_container"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="@string/phone_number_input"
+        android:importantForAutofill="no"
+        android:background="@drawable/edittext_bg"
+        android:layout_below="@+id/phone_number"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/phone_number_input"
+        android:inputType="phone" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_willing"
+        android:layout_margin="16dp"
+        android:id="@+id/course_willing"
+        android:layout_below="@+id/phone_number_input"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="@string/course_willing_to_take"
+        android:importantForAutofill="no"
+        android:background="@drawable/edittext_bg"
+        android:layout_below="@+id/course_willing"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/course_willing_input"
+        android:inputType="text" />
+
+</RelativeLayout>
+    <Button
+        android:layout_width="256dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center|center_horizontal"
+        android:gravity="center"
+        android:background="@color/purple_200"
+        android:text="@string/btn_text"
+        android:id="@+id/form_submit"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom= "32dp"
+        android:textColor="@color/white"/>
+
+</LinearLayout>
+</ScrollView>
+</layout>

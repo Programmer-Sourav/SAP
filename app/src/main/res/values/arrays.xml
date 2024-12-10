@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dropdown_items">
+        <item>All IndiaMedical Entrance</item>
+        <item>State Medical Entrance</item>
+        <item>All India Engineering Entrance</item>
+        <item>IIT JEE</item>
+        <item>Other - government college exams</item>
+        <item>Other - private college exams</item>
+    </string-array>
+
+    <string-array name="dummy_college_name_items">
+    <item>KIEM</item>
+    <item>Netaji Subhash IT</item>
+</string-array>
+
+</resources>

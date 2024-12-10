@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/aboutFragment">
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.service.appdev.coursedetails.fragments.AboutUs"
+        android:label="About Us"
+        tools:layout="@layout/fragment_aboutus">
+        <!-- Action to navigate from AboutFragment to ContactFragment -->
+<!--        <action-->
+<!--            android:id="@+id/action_about_to_contact"-->
+<!--            app:destination="@id/contactFragment" />-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.service.appdev.coursedetails.fragments.ContactUs"
+        android:label="Contact Us"
+        tools:layout="@layout/fragment_contact_us" >
+<!--        <action-->
+<!--            android:id="@+id/action_contact_to_app_upload"-->
+<!--            app:destination="@id/applicationUploadFragment" />-->
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/applicationUploadFragment"
+        android:name="com.service.appdev.coursedetails.fragments.ApplicationUpload"
+        android:label="Application Upload"
+        tools:layout="@layout/fragment_application_form_filup">
+<!--        <action-->
+<!--            android:id="@+id/action_app_upload_to_course_details"-->
+<!--            app:destination="@id/courseDetailsFragment" />-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/courseDetailsFragment"
+        android:name="com.service.appdev.coursedetails.fragments.CourseDetails"
+        android:label="Course Details"
+        tools:layout="@layout/fragment_course_details" />
+</navigation>
