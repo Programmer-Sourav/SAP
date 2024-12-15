@@ -67,6 +67,8 @@ dependencies {
     implementation (libs.okhttp3.logging.interceptor)
     implementation (libs.androidx.work.runtime.ktx)
     implementation (libs.converter.gson)
+    implementation (libs.squareup.picasso)
+    implementation (libs.androidx.viewpager2)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

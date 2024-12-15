@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CourseDetails</string>
+    <string name="app_name">SAP</string>
     <string name="about_us">About Us</string>
     <string name="contact_us">Contact Us</string>
     <string name="application_filup">Application Form</string>
@@ -29,5 +29,16 @@
     <string name="available_courses">Courses Available</string>
     <string name="upload_button">Upload Documents</string>
     <string name="no_college_selected">Please Select A College To View The Courses.</string>
+    <string name="single_page_header">Course Details</string>
+    <string name="course_code">Course Code: %1$s</string>
+    <string name="course_name">Course Name: %1$s</string>
+    <string name="seat_capacity">Seat Capacity: %1$s</string>
+    <string name="course_duration">Course Duration: %1$s</string>
+    <string name="course_description">Course Description: %1$s</string>
+    <string name="about_us_description">At SAP (Students Admission Point), we are dedicated to guiding aspiring students toward achieving their dreams. Specializing in career counseling and admission guidance, we help students secure admissions through management quota in top colleges and universities.\n\nOur expert counselors provide personalized advice tailored to each student’s aspirations, academic background, and career goals. With our deep understanding of admission processes and strong network, we ensure a seamless experience, empowering students to take the first step toward a successful future.\n\nLet us help you unlock the doors to your dream institution!</string>
+    <string name="news">News</string>
+    <string name="carousal">carousel</string>
+    <string name="next">Let\'s Go</string>
+
 
 </resources>

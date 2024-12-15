@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -52,7 +53,6 @@ class HomeController : AppCompatActivity() {
 
         navView =  findViewById<NavigationView>(R.id.nav_view)
         navView.setupWithNavController(navController)
-
 
 
         // Handle item selection in the NavigationView (drawer)

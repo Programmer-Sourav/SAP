@@ -1,5 +1,6 @@
 package com.service.appdev.coursedetails.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,11 +15,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.service.appdev.coursedetails.R
 import com.service.appdev.coursedetails.adapters.CustomSpinnerAdapter
 import com.service.appdev.coursedetails.models.ApiServiceBuilder
 import com.service.appdev.coursedetails.models.CollegeDetails
+import com.service.appdev.coursedetails.models.CourseData
+import com.service.appdev.coursedetails.models.CourseDetails
 import com.service.appdev.coursedetails.repository.CollegeManagementRepository
+import com.service.appdev.coursedetails.viewmodel.CourseDataState
 import com.service.appdev.coursedetails.viewmodel.CourseDetailsState
 import com.service.appdev.coursedetails.viewmodel.CourseDetailsViewModel
 import com.service.appdev.coursedetails.viewmodelfactory.CourseDetailsViewModelFactory
@@ -33,6 +39,14 @@ class CourseDetails : Fragment() {
     }
     private lateinit var myAvailableColleges : Spinner;
 
+    private lateinit var customAdapter: CustomSpinnerAdapter
+
+    private var courseList : ArrayList<CourseDetails> = ArrayList();
+
+    private var selectedCollege : String = "";
+
+    private lateinit var coursesGridView : GridView;
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -40,6 +54,7 @@ class CourseDetails : Fragment() {
 
         myAvailableColleges = view.findViewById<Spinner>(R.id.my_available_colleges);
         val collegeNotSelected = view.findViewById<TextView>(R.id.collegeNotSelected);
+        coursesGridView = view.findViewById<GridView>(R.id.gridView);
 
         viewModel.getCollegesList();
 
@@ -56,10 +71,44 @@ class CourseDetails : Fragment() {
             }
 
         })
-        val coursesGridView = view.findViewById<GridView>(R.id.gridView);
+
+        viewModel.courseDataState.observe(viewLifecycleOwner, Observer { state->
+            when(state){
+                is CourseDataState.Success->{
+                    //courseList  = state.courseDetails.map { CourseData(it.courseName, it.img_url) } as ArrayList<CourseData>
+                    courseList = state.courseDetails
+                    setUpGridView(courseList);
+                }
+                is CourseDataState.Error->{
+                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+ //       val dummyCourseList = ArrayList<CourseData>();
+//        dummyCourseList.add(CourseData("CSE", R.drawable.cse));
+//        dummyCourseList.add(CourseData("ECE", R.drawable.ece));
+//        dummyCourseList.add(CourseData("IT", R.drawable.ites));
+
+        coursesGridView.setOnItemClickListener { parent, view, position, id ->
+            // Handle the click event here
+            val selectedItem = courseList[position]
+            Toast.makeText(context, "Viewing Details For: ${selectedItem.courseName}", Toast.LENGTH_SHORT).show()
+            val i : Intent = Intent(requireActivity(), SingleCourseDetails::class.java)
+             i.putParcelableArrayListExtra("courseList", courseList);
+             i.putExtra("position", position.toString())
+            startActivity(i)
+        }
+
+
         return view;
     }
 
+    private fun setUpGridView(courseList : ArrayList<CourseDetails>){
+        if(courseList.size>0) {
+            customAdapter = CustomSpinnerAdapter(requireActivity(), R.layout.grid_item, courseList)
+            coursesGridView.adapter = customAdapter
+        }
+    }
     private fun setupSpinner(collegeList: List<String>) {
         val updatedCollegeList = mutableListOf("No course selected")
         updatedCollegeList.addAll(collegeList)
@@ -73,9 +122,11 @@ class CourseDetails : Fragment() {
         myAvailableColleges.adapter = adapter
         myAvailableColleges.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCollege = collegeList[position]
+                selectedCollege = updatedCollegeList[position]
+                Log.i("Snath ", "position "+position)
                 if (selectedCollege != null) {
                     Log.d("SelectedCourse", selectedCollege)
+                    viewModel.getCourseListByCollege(selectedCollege);
                 }
             }
 

@@ -44,7 +44,7 @@ class UploadWorker (context: Context, workerParams: WorkerParameters) : Worker(c
 
         //create request
         val request = Request.Builder()
-            .url("https://b5e43b70-347a-48dd-93a2-c0096959827b-00-2ueof21kz8gol.sisko.replit.dev/upload")
+            .url("https://www.travelsawari.com/index_course.php/upload_documents")
             .post(requestBody)
             .build();
 

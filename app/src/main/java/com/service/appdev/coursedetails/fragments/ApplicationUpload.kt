@@ -23,17 +23,17 @@ import com.service.appdev.coursedetails.viewmodel.ApplicationUploadState
 import com.service.appdev.coursedetails.viewmodelfactory.ApplicationFormViewModelFactory
 
 
-class ApplicationUpload  : Fragment(), AdapterView.OnItemSelectedListener {
+class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
 
     private lateinit var entranceIdSelected: String;
 
-    private  var _binding: FragmentApplicationFormFilupBinding? = null;
+    private var _binding: FragmentApplicationFormFilupBinding? = null;
     private val binding get() = _binding;
 
     private val apiService = ApiServiceBuilder.apiService
 
-    private val viewModel : ApplicationFormViewModel by viewModels{
-       ApplicationFormViewModelFactory(ApplicationUploadRepository(apiService))
+    private val viewModel: ApplicationFormViewModel by viewModels {
+        ApplicationFormViewModelFactory(ApplicationUploadRepository(apiService))
     }
 
     override fun onCreateView(
@@ -52,7 +52,7 @@ class ApplicationUpload  : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         val studentFirstName = binding?.studentFirstName
+        val studentFirstName = binding?.studentFirstName
         val studentLastName = binding?.studentLastName;
         val parentFirstName = binding?.parentFirstName;
         val parentLastName = binding?.parentLastName;
@@ -86,9 +86,15 @@ class ApplicationUpload  : Fragment(), AdapterView.OnItemSelectedListener {
         // Specify the layout to use when the list of choices appears.
 
         submitForm?.setOnClickListener(View.OnClickListener {
-            if(binding?.studentFirstName?.text.toString().isNotEmpty() && binding?.studentLastName?.text.toString().isNotEmpty() && binding?.parentFirstName?.text.toString().isNotEmpty()
-                && binding?.parentLastName?.text.toString().isNotEmpty() && binding?.fullSchoolName?.text.toString().isNotEmpty() &&  binding?.fullTwelfthMarks?.text.toString().isNotEmpty()
-                && binding?.fullTenthMarks?.text.toString().isNotEmpty() && binding?.fullJointMarks?.text.toString().isNotEmpty()) {
+            if (binding?.studentFirstName?.text.toString()
+                    .isNotEmpty() && binding?.studentLastName?.text.toString()
+                    .isNotEmpty() && binding?.parentFirstName?.text.toString().isNotEmpty()
+                && binding?.parentLastName?.text.toString()
+                    .isNotEmpty() && binding?.fullSchoolName?.text.toString()
+                    .isNotEmpty() && binding?.fullTwelfthMarks?.text.toString().isNotEmpty()
+                && binding?.fullTenthMarks?.text.toString()
+                    .isNotEmpty() && binding?.fullJointMarks?.text.toString().isNotEmpty()
+            ) {
 
                 //validateInputs()
                 viewModel.saveApplicationDetails(
@@ -112,14 +118,19 @@ class ApplicationUpload  : Fragment(), AdapterView.OnItemSelectedListener {
             }
         })
 
-//        val uploadScreen = Intent(requireActivity(), UploadScreen::class.java);
-//        startActivity(uploadScreen);
 
-        viewModel.applicationUploadState.observe(viewLifecycleOwner, Observer{ state ->
+
+        viewModel.applicationUploadState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
 
                 is ApplicationUploadState.Success -> {
-                    Toast.makeText(requireContext(), "Application successfully Uploaded!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Application successfully Uploaded!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val uploadScreen = Intent(requireActivity(), UploadScreen::class.java);
+                    startActivity(uploadScreen);
                 }
 
                 is ApplicationUploadState.Error -> {
@@ -130,24 +141,39 @@ class ApplicationUpload  : Fragment(), AdapterView.OnItemSelectedListener {
 
 
     }
-    private fun validateInputs(studentFirstName: String, studentsLastName: String, parentFirstName: String, parentLastName: String,
-                               fullSchoolName: String, full12thMarks: String, full10thMarks: String, selectEntrance: String, jointEntranceMarks: String,
-                               streetAddress1: String, streetAddress2: String, city: String, state: String, pinCode: String,
-                               phoneNumber: String, courseWillingToTake: String){
-        Log.i("Snath", selectEntrance)
 
+    private fun validateInputs(
+        studentFirstName: String,
+        studentsLastName: String,
+        parentFirstName: String,
+        parentLastName: String,
+        fullSchoolName: String,
+        full12thMarks: String,
+        full10thMarks: String,
+        selectEntrance: String,
+        jointEntranceMarks: String,
+        streetAddress1: String,
+        streetAddress2: String,
+        city: String,
+        state: String,
+        pinCode: String,
+        phoneNumber: String,
+        courseWillingToTake: String
+    ) {
+        Log.i("Snath", selectEntrance)
 
 
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-       entranceIdSelected = parent?.selectedItem.toString();
+        entranceIdSelected = parent?.selectedItem.toString();
         Log.d("Snath ", entranceIdSelected)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         return;
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // Avoid memory leaks

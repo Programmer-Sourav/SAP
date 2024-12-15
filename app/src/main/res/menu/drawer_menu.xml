@@ -6,6 +6,11 @@
         android:icon="@drawable/ic_about_us"
         />
     <item
+        android:id="@+id/newsFragment"
+        android:title="@string/news"
+        android:icon="@drawable/ic_about_us"
+        />
+    <item
         android:id="@+id/contactFragment"
         android:title="@string/contact_us"
         android:icon="@drawable/ic_contact_us"/>

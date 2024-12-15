@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("post_application_form")
@@ -14,6 +15,9 @@ interface ApiService {
 
     @GET("available_colleges")
     suspend fun getAvailableCollegesList() : CollegeResponse
+
+    @GET("available_courses/{collegeName}")
+    suspend fun getAvailableCourseList(@Path("collegeName") collegeName: String): CourseResponse
 }
 
 

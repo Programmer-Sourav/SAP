@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.service.appdev.coursedetails.models.CollegeDetails
-import com.service.appdev.coursedetails.models.CollegeResponse
+import com.service.appdev.coursedetails.models.CourseDetails
 import com.service.appdev.coursedetails.repository.CollegeManagementRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,6 +17,9 @@ class CourseDetailsViewModel(private val collegeManagementRepository: CollegeMan
 
     private val mutableLiveData = MutableLiveData<CourseDetailsState>()
     val courseDetailsState: LiveData<CourseDetailsState> = mutableLiveData;
+
+    private val mutableCollegeLiveData = MutableLiveData<CourseDataState>()
+    val courseDataState : LiveData<CourseDataState> = mutableCollegeLiveData;
 
     fun getCollegesList(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -36,9 +39,32 @@ class CourseDetailsViewModel(private val collegeManagementRepository: CollegeMan
         }
     }
 
+    fun getCourseListByCollege(selectedCollege : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                val response = collegeManagementRepository.retrieveCourseDetails(selectedCollege);
+                withContext(Dispatchers.Main) {
+                    mutableCollegeLiveData.value = CourseDataState.Success(response.response.courses);
+                    Log.i("Snath", "Course Details "+ response.response.courses)
+                }
+            }
+            catch (e : Exception){
+                withContext(Dispatchers.Main) {
+                    mutableCollegeLiveData.value =
+                        CourseDataState.Error("Fetching Course Details Failed ${e.message}");
+                }
+            }
+        }
+    }
+
 }
 
 sealed class CourseDetailsState {
     data class Success(val collegeList: ArrayList<CollegeDetails>) : CourseDetailsState()
     data class Error(val error: String?) : CourseDetailsState()
+}
+
+sealed class CourseDataState{
+    data class Success (val courseDetails: ArrayList<CourseDetails>) : CourseDataState()
+    data class Error(val error: String?) : CourseDataState()
 }
