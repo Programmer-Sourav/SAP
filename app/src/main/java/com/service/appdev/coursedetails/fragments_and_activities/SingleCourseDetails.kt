@@ -1,7 +1,6 @@
-package com.service.appdev.coursedetails.fragments
+package com.service.appdev.coursedetails.fragments_and_activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView

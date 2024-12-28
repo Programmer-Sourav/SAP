@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48sp"
+        android:background="@color/purple_700"
+        android:gravity="center_horizontal|center_vertical"
+        android:textColor="@color/white"
+        android:text="@string/adminpanel_header"/>
+    <Button
+        android:layout_width="192sp"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_images"
+        android:background="@color/purple_700"
+        android:textColor="@color/white"
+        android:padding="16sp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_centerInParent="true"
+        android:layout_margin="16sp"
+        android:textAllCaps="false"
+        android:id="@+id/uploadImages"/>
+    <Button
+        android:layout_width="192sp"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_news"
+        android:background="@color/purple_700"
+        android:textColor="@color/white"
+        android:padding="16sp"
+        android:layout_below="@+id/uploadImages"
+        android:layout_centerInParent="true"
+        android:textAllCaps="false"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="16sp"
+        android:id="@+id/uploadNews"/>
+
+</RelativeLayout>

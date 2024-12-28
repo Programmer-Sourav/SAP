@@ -5,12 +5,43 @@
     android:orientation="vertical"
     android:weightSum="3"
     android:background="@color/white">
- <ImageView
+ <LinearLayout
      android:layout_width="match_parent"
      android:layout_height="0dp"
      android:layout_weight="1"
+     android:orientation="vertical">
+ <ImageView
+     android:layout_width="match_parent"
+     android:layout_height="172dp"
      android:layout_margin="16dp"
      android:src="@drawable/saplogohr"/>
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="32sp"
+      android:layout_marginLeft="16sp"
+      android:layout_marginRight="16sp"
+      android:id="@+id/showNews"
+      android:orientation="horizontal">
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:paddingLeft="16sp"
+      android:paddingRight="16sp"
+      android:textColor="#ffffff"
+      android:background="@color/purple_700"
+      android:text="@string/news"/>
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="20sp"
+       android:paddingLeft="16sp"
+       android:paddingRight="16sp"
+       android:layout_marginLeft="16sp"
+       android:textColor="@android:color/holo_red_dark"
+       android:text="Admission Starts"/>
+  </LinearLayout>
+ </LinearLayout>
  <androidx.viewpager2.widget.ViewPager2
      android:layout_width="match_parent"
      android:layout_height="0dp"

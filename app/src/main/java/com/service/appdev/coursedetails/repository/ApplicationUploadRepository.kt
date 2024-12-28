@@ -14,7 +14,8 @@ class ApplicationUploadRepository(private val apiService: ApiService) {
         jointEntranceRank: String, streetAddress1: String,
         streetAddress2: String, city: String,
         state: String, pinCodeStr: String,
-        phoneNumber: String, courseWillingToStudy: String
+        phoneNumber: String, courseWillingToStudy: String,
+        studentEmail : String
     ): ApplicationFormResponseWrapper {
 
         // Prepare the application data as a map
@@ -34,7 +35,8 @@ class ApplicationUploadRepository(private val apiService: ApiService) {
             "state" to state,
             "pinCode" to pinCodeStr,
             "phoneNumber" to phoneNumber,
-            "course_willing_to_study" to courseWillingToStudy
+            "course_willing_to_study" to courseWillingToStudy,
+            "studentEmail" to studentEmail
         );
 
         // Make the API call

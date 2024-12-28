@@ -18,6 +18,16 @@ interface ApiService {
 
     @GET("available_courses/{collegeName}")
     suspend fun getAvailableCourseList(@Path("collegeName") collegeName: String): CourseResponse
+
+    @POST("login")
+    suspend fun attemptLogin(@Body dataBody: Map<String, String>): LoginResponse
+    @POST("admin_login")
+    suspend fun attemptAdminLogin(@Body dataBody: Map<String, String>): LoginResponse
+    @POST("institute_login")
+    suspend fun attemptInstituteLogin(@Body dataBody: Map<String, String>): LoginResponse
+
+    @POST("register_user")
+    suspend fun attemptRegistration(@Body dataBody: Map<String, String>): LoginResponse
 }
 
 

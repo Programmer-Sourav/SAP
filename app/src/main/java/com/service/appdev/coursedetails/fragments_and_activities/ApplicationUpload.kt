@@ -1,4 +1,4 @@
-package com.service.appdev.coursedetails.fragments
+package com.service.appdev.coursedetails.fragments_and_activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.service.appdev.coursedetails.R
 import com.service.appdev.coursedetails.databinding.FragmentApplicationFormFilupBinding
-import com.service.appdev.coursedetails.models.ApiService
 import com.service.appdev.coursedetails.models.ApiServiceBuilder
 import com.service.appdev.coursedetails.repository.ApplicationUploadRepository
 import com.service.appdev.coursedetails.upload.UploadScreen
@@ -63,6 +62,7 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
         val fullJointMarks = binding?.fullJointMarks;
         val streetAddress1 = binding?.streetAddress1;
         val streetAddress2 = binding?.streetAddress2;
+        val studentEmail = binding?.studentEmailEt;
         val city = binding?.city;
         val state = binding?.state;
         val pinCode = binding?.pincode;
@@ -93,7 +93,9 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     .isNotEmpty() && binding?.fullSchoolName?.text.toString()
                     .isNotEmpty() && binding?.fullTwelfthMarks?.text.toString().isNotEmpty()
                 && binding?.fullTenthMarks?.text.toString()
-                    .isNotEmpty() && binding?.fullJointMarks?.text.toString().isNotEmpty()
+                    .isNotEmpty() && binding?.fullJointMarks?.text.toString().isNotEmpty() &&
+                binding?.studentEmailEt?.text.toString()
+                    .isNotEmpty()
             ) {
 
                 //validateInputs()
@@ -113,7 +115,8 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     binding?.state?.text.toString(),
                     binding?.pincode?.text.toString(),
                     binding?.phoneNumberInput?.text.toString(),
-                    binding?.courseWillingInput?.text.toString()
+                    binding?.courseWillingInput?.text.toString(),
+                    binding?.studentEmailEt?.text.toString()
                 )
             }
         })

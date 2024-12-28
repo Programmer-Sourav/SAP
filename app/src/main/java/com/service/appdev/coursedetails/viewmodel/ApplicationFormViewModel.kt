@@ -23,7 +23,8 @@ class ApplicationFormViewModel(private val applicationUploadRepository: Applicat
                                jointEntranceRank: String, streetAddress1: String,
                                streetAddress2: String, city: String,
                                state: String, pinCodeStr: String,
-                               phoneNumber: String, courseWillingToStudy: String){
+                               phoneNumber: String, courseWillingToStudy: String,
+                               studentEmail : String){
         viewModelScope.launch {
             try{
               val responseWrapper = applicationUploadRepository.saveApplicationDetails(firstName, lastName, parentFirstName,
@@ -32,7 +33,7 @@ class ApplicationFormViewModel(private val applicationUploadRepository: Applicat
                   tenthMarks, selectEntranceType,
                   jointEntranceRank, streetAddress1,
                   streetAddress2, city, state, pinCodeStr,
-                  phoneNumber, courseWillingToStudy)
+                  phoneNumber, courseWillingToStudy, studentEmail)
 
                 if (responseWrapper.response.success) {
                     mutableLiveData.value = ApplicationUploadState.Success(responseWrapper.response.message);

@@ -16,7 +16,7 @@
         android:theme="@style/Theme.AppCompatTheme"
         tools:targetApi="31">
         <activity
-            android:name=".fragments.FrontPage"
+            android:name=".fragments_and_activities.FrontPage"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompatTheme">
@@ -26,9 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".fragments_and_activities.BeforeLogin"/>
+        <activity android:name=".fragments_and_activities.LoginActivity"/>
+        <activity android:name=".fragments_and_activities.AdminPanel"/>
         <activity android:name=".HomeController"/>
-        <activity android:name=".fragments.SingleCourseDetails"/>
+        <activity android:name=".fragments_and_activities.SingleCourseDetails"/>
         <activity android:name=".upload.UploadScreen"/>
+        <activity android:name=".fragments_and_activities.ShowNews"/>
     </application>
 
 </manifest>

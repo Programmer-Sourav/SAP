@@ -39,6 +39,22 @@
     <string name="news">News</string>
     <string name="carousal">carousel</string>
     <string name="next">Let\'s Go</string>
+    <string name="student_email">Provide an Email Id</string>
+    <string name="student_email_hint">Enter Email</string>
+    <string name="loginPrompt">LOGIN</string>
+    <string name="loginText">Please enter your login and password!</string>
+    <string name="username">Enter Username</string>
+    <string name="password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="student">For Student</string>
+    <string name="admin">For Admin</string>
+    <string name="institute">For Institute</string>
+    <string name="upload_images">Upload Images</string>
+    <string name="upload_news">Upload News</string>
+    <string name="adminpanel_header">Admin Panel</string>
+    <string name="previous">Previous</string>
+    <string name="next_slide">Next</string>
+    <string name="annoucementcd">Announcement</string>
 
 
 </resources>

@@ -1,17 +1,20 @@
-package com.service.appdev.coursedetails.fragments
+package com.service.appdev.coursedetails.fragments_and_activities
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.service.appdev.coursedetails.R
 
-class News : Fragment() {
+class ContactUs : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        // Inflate the layout for this fragment and return it
+        return inflater.inflate(R.layout.fragment_contact_us, container, false)
     }
 }

@@ -108,10 +108,28 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/student_email"
+        android:layout_margin="16dp"
+        android:id="@+id/student_email"
+        android:layout_below="@+id/parent_full_name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="@string/student_email_hint"
+        android:importantForAutofill="no"
+        android:background="@drawable/edittext_bg"
+        android:layout_below="@+id/student_email"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/student_email_et"
+        android:inputType="text" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/school_name"
         android:layout_margin="16dp"
         android:id="@+id/school_name"
-        android:layout_below="@+id/parent_full_name"/>
+        android:layout_below="@+id/student_email_et"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="40dp"

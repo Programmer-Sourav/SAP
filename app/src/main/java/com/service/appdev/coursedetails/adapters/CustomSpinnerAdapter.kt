@@ -10,9 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.service.appdev.coursedetails.R
-import com.service.appdev.coursedetails.models.CollegeDetails
-import com.service.appdev.coursedetails.models.CollegeResponse
-import com.service.appdev.coursedetails.models.CourseData
 import com.service.appdev.coursedetails.models.CourseDetails
 import com.squareup.picasso.Picasso
 

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.service.appdev.coursedetails.fragments.AboutUs"
+        android:name="com.service.appdev.coursedetails.fragments_and_activities.AboutUs"
         android:label="About Us"
         tools:layout="@layout/fragment_aboutus">
         <!-- Action to navigate from AboutFragment to ContactFragment -->
@@ -16,8 +16,15 @@
     </fragment>
 
     <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.service.appdev.coursedetails.fragments_and_activities.News"
+        android:label="News/Annoucements"
+        tools:layout="@layout/news_list_ui">
+    </fragment>
+
+    <fragment
         android:id="@+id/contactFragment"
-        android:name="com.service.appdev.coursedetails.fragments.ContactUs"
+        android:name="com.service.appdev.coursedetails.fragments_and_activities.ContactUs"
         android:label="Contact Us"
         tools:layout="@layout/fragment_contact_us" >
 <!--        <action-->
@@ -28,7 +35,7 @@
 
     <fragment
         android:id="@+id/applicationUploadFragment"
-        android:name="com.service.appdev.coursedetails.fragments.ApplicationUpload"
+        android:name="com.service.appdev.coursedetails.fragments_and_activities.ApplicationUpload"
         android:label="Application Upload"
         tools:layout="@layout/fragment_application_form_filup">
 <!--        <action-->
@@ -38,7 +45,7 @@
 
     <fragment
         android:id="@+id/courseDetailsFragment"
-        android:name="com.service.appdev.coursedetails.fragments.CourseDetails"
+        android:name="com.service.appdev.coursedetails.fragments_and_activities.CourseDetails"
         android:label="Course Details"
         tools:layout="@layout/fragment_course_details" />
 </navigation>

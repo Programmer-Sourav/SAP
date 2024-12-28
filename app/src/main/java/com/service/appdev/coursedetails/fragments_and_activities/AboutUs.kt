@@ -1,4 +1,4 @@
-package com.service.appdev.coursedetails.fragments
+package com.service.appdev.coursedetails.fragments_and_activities
 
 import android.os.Bundle
 import android.view.LayoutInflater
