@@ -9,9 +9,22 @@
         <item>Other - private college exams</item>
     </string-array>
 
+
+    <string-array name="courses_items">
+        <item>Engineering</item>
+        <item>Medical</item>
+        <item>Pharmacy</item>
+        <item>B.Ed</item>
+        <item>Govt. Exam</item>
+        <item>TET</item>
+        <item>Distance Learning</item>
+        <item>Other Courses</item>
+    </string-array>
+
     <string-array name="dummy_college_name_items">
     <item>KIEM</item>
     <item>Netaji Subhash IT</item>
 </string-array>
+
 
 </resources>

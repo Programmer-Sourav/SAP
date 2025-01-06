@@ -43,7 +43,7 @@
     android:id="@+id/useremail"
     android:layout_centerInParent="true"
     android:background="@drawable/edittext_bg_2"
-    android:hint="@string/username"/>
+    android:hint="@string/userphone"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="40sp"
@@ -56,6 +56,16 @@
         android:layout_below="@id/useremail"
         android:inputType="textPassword"
         android:hint="@string/password"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Not Yet Registered. Register Here!"
+        android:textStyle="bold"
+        android:id="@+id/registerHere"
+        android:textColor="@color/purple_700"
+        android:layout_below="@+id/userpassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32sp"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"

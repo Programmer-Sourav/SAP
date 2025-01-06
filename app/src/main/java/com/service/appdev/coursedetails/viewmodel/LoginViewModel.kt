@@ -62,7 +62,7 @@ class LoginViewModel(private val loginManagementRepository: LoginManagementRepos
             }
         }
     }
-    fun userSignUp(name: String, password: String, userPhone: String){
+    fun userSignUp(name: String, userPhone: String, password: String){
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 val response =

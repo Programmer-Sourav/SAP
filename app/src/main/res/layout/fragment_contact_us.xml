@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+ <TextView
+     android:layout_width="match_parent"
+     android:layout_height="72sp"
+     android:textStyle="bold"
+     android:textColor="@color/black"
+     android:text="@string/contact_us_text"
+     android:layout_margin="32sp"
+     android:textSize="20sp"
+     android:id="@+id/textv"
+     android:layout_centerInParent="true"/>
 
-</LinearLayout>
+ <Button
+     android:layout_width="252sp"
+     android:layout_height="wrap_content"
+     android:textSize="20sp"
+     android:padding="8sp"
+     android:layout_below="@+id/textv"
+     android:background="@android:color/holo_red_dark"
+     android:textColor="@color/white"
+     android:text="Call Now"
+     android:id="@+id/callNow"
+     android:layout_centerHorizontal="true"/>
+
+
+
+</RelativeLayout>

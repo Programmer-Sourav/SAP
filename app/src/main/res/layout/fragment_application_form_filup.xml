@@ -197,6 +197,7 @@
         android:layout_marginRight="16dp"
         android:background="@drawable/edittext_bg"
         android:layout_below="@id/joint_marks"
+        android:drawableEnd="@drawable/ic_down_arrow"
         android:entries="@array/dropdown_items" />
 
     <EditText
@@ -309,17 +310,36 @@
         android:layout_margin="16dp"
         android:id="@+id/course_willing"
         android:layout_below="@+id/phone_number_input"/>
-    <EditText
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:hint="@string/course_willing_to_take"
+        android:hint="Select"
         android:importantForAutofill="no"
-        android:background="@drawable/edittext_bg"
         android:layout_below="@+id/course_willing"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:dropDownSelector="@color/purple_500"
+        android:entries="@array/courses_items"
         android:id="@+id/course_willing_input"
-        android:inputType="text" />
+        android:spinnerMode="dropdown"
+        android:background="@drawable/spinner_bg"
+        android:popupBackground="@drawable/your_popup_background"
+        android:drawableEnd="@drawable/ic_down_arrow" />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/selectedCoursesText"
+    android:text="@string/selected_courses"
+    android:layout_below="@+id/course_willing_input"
+    android:layout_margin="16sp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="72sp"
+    android:layout_below="@+id/selectedCoursesText"
+    android:id="@+id/linearLayout"
+    android:orientation="vertical"/>
+
 
 </RelativeLayout>
     <Button

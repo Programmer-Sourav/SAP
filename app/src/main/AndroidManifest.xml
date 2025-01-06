@@ -33,6 +33,10 @@
         <activity android:name=".fragments_and_activities.SingleCourseDetails"/>
         <activity android:name=".upload.UploadScreen"/>
         <activity android:name=".fragments_and_activities.ShowNews"/>
+        <activity android:name=".fragments_and_activities.MakeAnnouncement"/>
+        <activity android:name=".admin.upload.UploadScreen"/>
+        <activity android:name=".fragments_and_activities.SuccessResponse"/>
+        <activity android:name=".fragments_and_activities.RegisterUser"/>
     </application>
 
 </manifest>

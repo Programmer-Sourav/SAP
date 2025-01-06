@@ -1,10 +1,12 @@
 package com.service.appdev.coursedetails
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -53,8 +55,14 @@ class HomeController : AppCompatActivity() {
 
         navView =  findViewById<NavigationView>(R.id.nav_view)
         navView.setupWithNavController(navController)
+        // Inflate the header view
+        val headerView = navView.getHeaderView(0)
+        val userTextView = headerView.findViewById<TextView>(R.id.username)
 
-
+        val userSp = getSavedLoginDetails();
+        val splitted = userSp?.split(",")
+        val username = splitted?.get(1);
+        userTextView.text = username;
         // Handle item selection in the NavigationView (drawer)
 //        navView.setNavigationItemSelectedListener { menuItem->
 //            when(menuItem.itemId){
@@ -99,6 +107,12 @@ class HomeController : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+    }
+
+    private fun getSavedLoginDetails() : String? {
+        val sharedPref: SharedPreferences = getSharedPreferences(getString(R.string.save_login_details),MODE_PRIVATE)
+        val loginDetails = sharedPref.getString(getString(R.string.save_login_details), "defaultValue")
+        return loginDetails;
     }
 
 }

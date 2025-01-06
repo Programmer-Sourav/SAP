@@ -13,8 +13,8 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.service.appdev.coursedetails.R
 import com.service.appdev.coursedetails.adapters.CustomSpinnerAdapter
 import com.service.appdev.coursedetails.models.ApiServiceBuilder
@@ -28,11 +28,11 @@ import com.service.appdev.coursedetails.viewmodelfactory.CourseDetailsViewModelF
 class CourseDetails : Fragment() {
     private lateinit var view: View;
 
-    private val apiService = ApiServiceBuilder.apiService
-
-    private val viewModel: CourseDetailsViewModel by viewModels{
-        CourseDetailsViewModelFactory(CollegeManagementRepository(apiService))
-    }
+   // private val apiService = ApiServiceBuilder.apiService
+//    private val viewModel: CourseDetailsViewModel by viewModels{
+//        CourseDetailsViewModelFactory(CollegeManagementRepository(apiService))
+//    }
+    private lateinit var viewModel: CourseDetailsViewModel;
     private lateinit var myAvailableColleges : Spinner;
 
     private lateinit var customAdapter: CustomSpinnerAdapter
@@ -51,6 +51,12 @@ class CourseDetails : Fragment() {
         myAvailableColleges = view.findViewById<Spinner>(R.id.my_available_colleges);
         val collegeNotSelected = view.findViewById<TextView>(R.id.collegeNotSelected);
         coursesGridView = view.findViewById<GridView>(R.id.gridView);
+
+        val apiService = ApiServiceBuilder.createApiService(requireContext())
+        viewModel = ViewModelProvider(
+            this,
+            CourseDetailsViewModelFactory(CollegeManagementRepository(apiService))
+        )[CourseDetailsViewModel::class.java]
 
         viewModel.getCollegesList();
 
