@@ -3,6 +3,9 @@ Students Admission Point
 1. Application form fillup
 2. Uploading Documents
 3. Selecting Colleges and View Course Details
+4. Sharing app link on social media
+5. Uploading multiple images for image sliders
+   
 
 Technical: 
 1. Use of Work Manager
