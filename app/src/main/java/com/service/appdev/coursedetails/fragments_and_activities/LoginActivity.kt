@@ -51,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
         registerHere.setOnClickListener(View.OnClickListener {
             val intent = Intent(this@LoginActivity, RegisterUser::class.java);
             intent.putExtra("accountType", "Student");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         })
 
@@ -77,16 +78,19 @@ class LoginActivity : AppCompatActivity() {
                     if(accountType.equals("Student")) {
                         val intent = Intent(this@LoginActivity, HomeController::class.java);
                         saveLogin(userId, username, authToken, "Student") //Get it from the Response
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                     else if(accountType.equals("Admin")) {
                         val intent = Intent(this@LoginActivity, AdminPanel::class.java);
                         saveLogin(userId, username, authToken, "Admin")
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                     else {
                         val intent = Intent(this@LoginActivity, AdminPanel::class.java);
                         saveLogin(userId, username, authToken, "Institute")
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 }

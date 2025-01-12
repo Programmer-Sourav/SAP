@@ -1,9 +1,13 @@
 package com.service.appdev.coursedetails.fragments_and_activities
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.service.appdev.coursedetails.R
 import com.service.appdev.coursedetails.adapters.NewsAdapter
+import com.service.appdev.coursedetails.interfaces.OnClickListenerForPosition
 import com.service.appdev.coursedetails.models.AnnouncementData
 import com.service.appdev.coursedetails.models.ApiService
 import com.service.appdev.coursedetails.models.ApiServiceBuilder
@@ -23,7 +28,7 @@ import com.service.appdev.coursedetails.viewmodel.CourseDetailsViewModel
 import com.service.appdev.coursedetails.viewmodelfactory.AdminManagementViewModelFactory
 import com.service.appdev.coursedetails.viewmodelfactory.CourseDetailsViewModelFactory
 
-class News : Fragment() {
+class News : Fragment(), OnClickListenerForPosition {
 
     private lateinit var view : View;
     private lateinit var newsListUi : RecyclerView;
@@ -36,7 +41,10 @@ class News : Fragment() {
 //    }
 
     private lateinit var viewModel: CourseDetailsViewModel;
+    private  lateinit var textCountTv: TextView;
+    var incomingNewsList = ArrayList<AnnouncementData>();
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,9 +52,11 @@ class News : Fragment() {
     ): View? {
         view = inflater.inflate(R.layout.news_list_ui, container, false)
         newsListUi = view.findViewById<RecyclerView>(R.id.newsList);
+        textCountTv = view.findViewById(R.id.textCount);
 
-        var incomingNewsList = ArrayList<AnnouncementData>();
-        val newsAdapter : NewsAdapter = NewsAdapter(incomingNewsList);
+
+        val newsAdapter : NewsAdapter = NewsAdapter(incomingNewsList, this);
+
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         newsListUi.adapter = newsAdapter
@@ -68,6 +78,7 @@ class News : Fragment() {
                      incomingNewsList.clear() // Clear old data
                      incomingNewsList.addAll(state.announcementDetails) // Add new data
                      incomingNewsList.reverse();
+                     textCountTv.setText(incomingNewsList.size.toString());
                      newsAdapter.notifyDataSetChanged()
                  }
                  is AnnouncementDataState.Error ->{
@@ -78,5 +89,11 @@ class News : Fragment() {
 
 
         return view;
+    }
+
+    override fun onItemPositionListener(position: Int) {
+        val linkAtPos = incomingNewsList[position].filePath;
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkAtPos));
+        startActivity(intent);
     }
 }

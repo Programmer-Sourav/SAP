@@ -1,6 +1,5 @@
 package com.service.appdev.coursedetails.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,10 +17,10 @@ class AdminManagementViewModel(private val collegeManagementRepository: CollegeM
     val imageListState : LiveData<ImageState> = imagesListMutableLiveData;
 
 
-    fun saveAnnouncementDetails( header : String, notice: String){
+    fun saveAnnouncementDetails(header: String, notice: String, announcementId: String){
          viewModelScope.launch {
              try{
-               val response = collegeManagementRepository.postAnnouncementDetails(header, notice);
+               val response = collegeManagementRepository.postAnnouncementDetails(header, notice, announcementId);
                 announcementMutableLiveData.value = AdminState.Success(response.message);
              }
              catch (e: Exception){

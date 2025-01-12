@@ -51,6 +51,7 @@ class CourseDetails : Fragment() {
         myAvailableColleges = view.findViewById<Spinner>(R.id.my_available_colleges);
         val collegeNotSelected = view.findViewById<TextView>(R.id.collegeNotSelected);
         coursesGridView = view.findViewById<GridView>(R.id.gridView);
+        val shareAppLink = view.findViewById<TextView>(R.id.shareAppLink);
 
         val apiService = ApiServiceBuilder.createApiService(requireContext())
         viewModel = ViewModelProvider(
@@ -85,6 +86,21 @@ class CourseDetails : Fragment() {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
                 }
             }
+        })
+
+        shareAppLink.setOnClickListener(View.OnClickListener {
+            /*Create an ACTION_SEND Intent*/
+            val intent = Intent(Intent.ACTION_SEND)
+            /*This will be the actual content you wish you share.*/
+            val applink = "https://play.google.com/store/apps/details?id=com.service.appdev.coursedetails&hl=en"
+            val shareBody = "Make your college admission easier. Download our app now- $applink"
+            /*The type of the content is text, obviously.*/
+            intent.setType("text/plain")
+            /*Applying information Subject and Body.*/
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(com.service.appdev.coursedetails.R.string.share_subject))
+            intent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            /*Fire!*/
+            startActivity(Intent.createChooser(intent, getString(com.service.appdev.coursedetails.R.string.share_using)))
         })
  //       val dummyCourseList = ArrayList<CourseData>();
 //        dummyCourseList.add(CourseData("CSE", R.drawable.cse));

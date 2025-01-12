@@ -63,6 +63,15 @@
     <string name="uploadMessage">"Please upload required documents like your Aadhar Card, PAN Card and other Documents. "</string>
     <string name="contact_us_text">Contact Us with your Queries. Give a Call to our career counsellor  -  +91 9774837504</string>
     <string name="userphone">Enter Phone Number</string>
+    <string name="logout">Logout</string>
+    <string name="uploadattachments">Upload Attachments</string>
+    <string name="mention">Mention your Announcement</string>
+    <string name="uploadMessage1">Upload PDFs/Images</string>
+    <string name="uploadMessage2">Upload Slider Images</string>
+    <string name="save_level">LEVEL OF SLIDE</string>
+    <string name="shareApp">Share App Link</string>
+    <string name="share_subject">Download Student Admission Point App From Playstore</string>
+    <string name="share_using">Share Link to</string>
 
 
 </resources>

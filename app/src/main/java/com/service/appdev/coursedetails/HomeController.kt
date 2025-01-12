@@ -1,12 +1,16 @@
 package com.service.appdev.coursedetails
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -18,6 +22,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.service.appdev.coursedetails.fragments_and_activities.FrontPage
+import com.service.appdev.coursedetails.fragments_and_activities.LoginActivity
 
 class HomeController : AppCompatActivity() {
 
@@ -58,6 +64,7 @@ class HomeController : AppCompatActivity() {
         // Inflate the header view
         val headerView = navView.getHeaderView(0)
         val userTextView = headerView.findViewById<TextView>(R.id.username)
+        val logoutBtn = headerView.findViewById<Button>(R.id.logout);
 
         val userSp = getSavedLoginDetails();
         val splitted = userSp?.split(",")
@@ -84,6 +91,13 @@ class HomeController : AppCompatActivity() {
 //            true
 //        }
 
+        logoutBtn.setOnClickListener(View.OnClickListener {
+            resetSharedPreference();
+            Toast.makeText(applicationContext, "You're Logged out now!", Toast.LENGTH_SHORT).show();
+            val intent = Intent(this@HomeController, FrontPage::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent)
+        })
         navView.setNavigationItemSelectedListener { menuItem ->
             val handled = menuItem.onNavDestinationSelected(navController)
             Log.d("Inside Nav View", " " + handled)
@@ -113,6 +127,13 @@ class HomeController : AppCompatActivity() {
         val sharedPref: SharedPreferences = getSharedPreferences(getString(R.string.save_login_details),MODE_PRIVATE)
         val loginDetails = sharedPref.getString(getString(R.string.save_login_details), "defaultValue")
         return loginDetails;
+    }
+
+    private fun resetSharedPreference () {
+        val sharedPreferences : SharedPreferences = getSharedPreferences(getString(R.string.save_login_details), MODE_PRIVATE);
+        val editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
 }

@@ -66,6 +66,7 @@ class RegisterUser : AppCompatActivity() {
                     if(accountType.equals("Student")) {
                         val intent = Intent(this@RegisterUser, HomeController::class.java);
                         saveLogin(userId, username, authToken) //Get it from the Response
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
 //                    else if(accountType.equals("Admin")) {

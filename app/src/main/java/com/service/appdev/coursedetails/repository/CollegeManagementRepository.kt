@@ -27,8 +27,8 @@ class CollegeManagementRepository (private val apiService: ApiService) {
         return response;
     }
 
-    suspend fun postAnnouncementDetails(header: String, notice: String): PostAnnouncementResponse {
-        val dataBody = mapOf("header" to header, "notice" to notice);
+    suspend fun postAnnouncementDetails(header: String, notice: String, announcementId: String): PostAnnouncementResponse {
+        val dataBody = mapOf("header" to header, "notice" to notice, "announcementId" to announcementId);
         val response = apiService.postAnnouncement(dataBody);
         Log.i("API Response", response.toString())
         return response;

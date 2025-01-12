@@ -3,10 +3,32 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="40sp"
+    android:text="Total Announcements:"
+    android:gravity="center"
+    android:textColor="@color/purple_700"
+    android:textStyle="bold"
+    android:layout_margin="16sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:id="@+id/textCount"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_margin="16sp"/>
+</LinearLayout>
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/newsList"
+    android:scrollbars="vertical"
+    android:layout_margin="8sp"
     />
 
 

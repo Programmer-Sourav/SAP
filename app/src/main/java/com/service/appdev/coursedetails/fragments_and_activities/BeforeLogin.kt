@@ -19,18 +19,21 @@ class BeforeLogin : AppCompatActivity() {
 
         studentBlock.setOnClickListener(View.OnClickListener {
          val studentIntent = Intent(this@BeforeLogin, LoginActivity::class.java);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
           studentIntent.putExtra("accountType", "Student")
          startActivity(studentIntent)
         })
 
         adminBlock.setOnClickListener(View.OnClickListener {
             val adminIntent = Intent(this@BeforeLogin, LoginActivity::class.java);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             adminIntent.putExtra("accountType", "Admin")
             startActivity(adminIntent)
         })
 
         instituteBlock.setOnClickListener(View.OnClickListener {
             val instituteIntent = Intent(this@BeforeLogin, LoginActivity::class.java);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             instituteIntent.putExtra("accountType", "Institute")
             startActivity(instituteIntent)
         })

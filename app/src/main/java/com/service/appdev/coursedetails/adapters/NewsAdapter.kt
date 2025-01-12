@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.service.appdev.coursedetails.R
 import com.service.appdev.coursedetails.interfaces.OnClickListenerForPosition
 import com.service.appdev.coursedetails.models.AnnouncementData
-import com.service.appdev.coursedetails.models.NewsItem
 
-class NewsAdapter(private val listOfNews: ArrayList<AnnouncementData>) : RecyclerView.Adapter<NewsAdapter.NewsVH>() {
+class NewsAdapter(private val listOfNews: ArrayList<AnnouncementData>, private val listener: OnClickListenerForPosition) : RecyclerView.Adapter<NewsAdapter.NewsVH>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsVH {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.news_fragment_small, parent, false);
@@ -29,6 +28,7 @@ class NewsAdapter(private val listOfNews: ArrayList<AnnouncementData>) : Recycle
         holder.headerView.text = currentItem.header
         holder.announcementText.text = currentItem.notice
         holder.announcementDate.text = currentItem.announcementdate
+        holder.attachment.text = currentItem.filePath;
     }
 
 
@@ -37,15 +37,16 @@ class NewsAdapter(private val listOfNews: ArrayList<AnnouncementData>) : Recycle
         val headerView = itemView.findViewById<TextView>(R.id.announcement_header);
         val announcementText = itemView.findViewById<TextView>(R.id.announcement_notice);
         val announcementDate = itemView.findViewById<TextView>(R.id.announcement_date);
+        val attachment = itemView.findViewById<TextView>(R.id.attachment);
 
-//        init {
-//            itemView.setOnClickListener(View.OnClickListener {
-//                val position = absoluteAdapterPosition;
-//                if (position != RecyclerView.NO_POSITION) {
-//                    listener.onItemPositionListener(position);
-//                }
-//            })
-//        }
+        init {
+            attachment.setOnClickListener(View.OnClickListener {
+                val position = absoluteAdapterPosition;
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemPositionListener(position);
+                }
+            })
+        }
     }
 }
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:padding="16sp"
+        android:text="@string/uploadMessage2"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Level 1 Images"
+        android:background="@color/purple_200"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:id="@+id/btnSelectFile1"
+        android:layout_centerInParent="true"
+        android:layout_margin="64dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Level 2 Images"
+        android:background="@color/purple_200"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:id="@+id/btnSelectFile2"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64sp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Level 3 Images"
+        android:background="@color/purple_200"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:id="@+id/btnSelectFile3"
+        android:layout_centerInParent="true"
+        android:layout_margin="64dp"/>
+    <ProgressBar
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+</LinearLayout>

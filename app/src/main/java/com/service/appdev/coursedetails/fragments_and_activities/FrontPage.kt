@@ -24,6 +24,7 @@ import com.service.appdev.coursedetails.repository.CollegeManagementRepository
 import com.service.appdev.coursedetails.viewmodel.AdminManagementViewModel
 import com.service.appdev.coursedetails.viewmodel.ImageState
 import com.service.appdev.coursedetails.viewmodelfactory.AdminManagementViewModelFactory
+import java.util.stream.Collectors
 
 
 class FrontPage  : AppCompatActivity() {
@@ -85,19 +86,32 @@ class FrontPage  : AppCompatActivity() {
                 is ImageState.Success ->{
                     listOfImages.clear();
                     listOfImages.addAll(state.images);
-                    val partSize = (listOfImages.size + 2) / 3 // Divide total items into 3 parts (ceiling of division)
-                    val part1 = listOfImages.subList(0, minOf(partSize, listOfImages.size))
-                    val part2 = listOfImages.subList(
-                        part1.size,
-                        minOf(part1.size + partSize, listOfImages.size)
-                    )
-                    val part3 = listOfImages.subList(
-                        part1.size + part2.size,
-                        listOfImages.size
-                    )
-                    listOfImages1.addAll(part1);
-                    listOfImages2.addAll(part2);
-                    listOfImages3.addAll(part3);
+
+//                    val partSize = (listOfImages.size + 2) / 3 // Divide total items into 3 parts (ceiling of division)
+//                    val part1 = listOfImages.subList(0, minOf(partSize, listOfImages.size))
+//                    val part2 = listOfImages.subList(
+//                        part1.size,
+//                        minOf(part1.size + partSize, listOfImages.size)
+//                    )
+//                    val part3 = listOfImages.subList(
+//                        part1.size + part2.size,
+//                        listOfImages.size
+//                    )\
+                    val part1 = listOfImages.stream()
+                        .filter { imageItem -> imageItem.sliderLevel == "Level1" }
+                        .collect(Collectors.toList())
+
+                    val part2 = listOfImages.stream()
+                        .filter { imageItem -> imageItem.sliderLevel == "Level2" }
+                        .collect(Collectors.toList())
+
+                    val part3 = listOfImages.stream()
+                        .filter { imageItem -> imageItem.sliderLevel == "Level3" }
+                        .collect(Collectors.toList())
+
+                    listOfImages1.addAll(part1.toList());
+                    listOfImages2.addAll(part2.toList());
+                    listOfImages3.addAll(part3.toList());
                     Log.i("Snath ", "Images "+listOfImages.size +", "+listOfImages1.size +", "+listOfImages2.size +", "+listOfImages3.size)
                     carousalAdapter.notifyDataSetChanged();
                     carousalAdapter1.notifyDataSetChanged();
@@ -135,16 +149,19 @@ class FrontPage  : AppCompatActivity() {
                     }
                     else if(userType=="Admin") {
                         val intent = Intent(this@FrontPage, AdminPanel::class.java);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                     else if(userType=="Institute") {
                         //default panel
                         val intent = Intent(this@FrontPage, AdminPanel::class.java);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 }
                 else {
                     val intent = Intent(this@FrontPage, BeforeLogin::class.java);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             }
@@ -153,6 +170,7 @@ class FrontPage  : AppCompatActivity() {
 
         showNews.setOnClickListener(View.OnClickListener {
             val intent = Intent(this@FrontPage, ShowNews::class.java);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         })
 
@@ -164,7 +182,7 @@ class FrontPage  : AppCompatActivity() {
                 try {
                     val currentItem = viewPager.currentItem
                     viewPager.currentItem = (currentItem + 1) % listOfImages.size
-                    handler.postDelayed(this, 3000) // Change every 3 seconds
+                    handler.postDelayed(this, 2000) // Change every 3 seconds
                 } catch (ex: RuntimeException) {
                     print("Divide By Zero Exception " + ex.printStackTrace());
                 }
@@ -180,7 +198,7 @@ class FrontPage  : AppCompatActivity() {
                 try {
                     val currentItem = viewPager2.currentItem
                     viewPager2.currentItem = (currentItem + 1) % listOfImages.size
-                    handler.postDelayed(this, 3000) // Change every 3 seconds
+                    handler.postDelayed(this, 4000) // Change every 3 seconds
                 } catch (ex: RuntimeException) {
                     print("Divide By Zero Exception " + ex.printStackTrace());
                 }

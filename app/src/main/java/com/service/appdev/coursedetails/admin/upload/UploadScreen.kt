@@ -2,6 +2,8 @@ package com.service.appdev.coursedetails.admin.upload
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -26,14 +28,31 @@ import java.io.File
 class UploadScreen : AppCompatActivity() {
 
     private lateinit var progressBar: ProgressBar
+    private lateinit var  uploaderType : String;
+    private lateinit var announcementId: String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.upload_screen)
+        setContentView(R.layout.upload_screen_2)
 
         progressBar = findViewById(R.id.progressBar);
-        val btnSelectFile = findViewById<Button>(R.id.btnSelectFile)
-        btnSelectFile.setOnClickListener {
+        val btnSelectFile1 = findViewById<Button>(R.id.btnSelectFile1)
+        val btnSelectFile2 = findViewById<Button>(R.id.btnSelectFile2)
+        val btnSelectFile3 = findViewById<Button>(R.id.btnSelectFile3)
+
+        uploaderType = intent.getStringExtra("uploaderType").toString();
+        announcementId = intent.getStringExtra("announcementId").toString();
+
+        btnSelectFile1.setOnClickListener {
+            saveLevelOfSliders("Level1");
+            openFilePicker()
+        }
+        btnSelectFile2.setOnClickListener {
+            saveLevelOfSliders("Level2");
+            openFilePicker()
+        }
+        btnSelectFile3.setOnClickListener {
+            saveLevelOfSliders("Level3");
             openFilePicker()
         }
     }
@@ -66,11 +85,11 @@ class UploadScreen : AppCompatActivity() {
             }
 
             // Input data for the worker
-            val inputData = Data.Builder().putStringArray("filePath",filePaths.toTypedArray()).build();
+            val inputData = Data.Builder().putStringArray("filePath",filePaths.toTypedArray()).putString("announcementId", announcementId).build();
             val constraints = androidx.work.Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-
+            if(uploaderType.equals("imageslider")){
             // Create a OneTimeWorkRequest
             val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadWorker>()
                 .setConstraints(constraints)
@@ -106,7 +125,49 @@ class UploadScreen : AppCompatActivity() {
                         }
                     }
                 }
-        }
+           }
+            else if (uploaderType.equals("documentuploader")) {
+                     // Create a OneTimeWorkRequest
+                     val uploadWorkRequest = OneTimeWorkRequestBuilder<UploadWorkerForPDF>()
+                         .setConstraints(constraints)
+                         .setInputData(inputData).build();
+
+                     // Enqueue the work
+                     WorkManager.getInstance(this).enqueue(uploadWorkRequest);
+
+                     WorkManager.getInstance(this).getWorkInfoByIdLiveData(uploadWorkRequest.id)
+                         .observe(this) { workInfo ->
+                             if (workInfo != null) {
+                                 when (workInfo.state) {
+                                     WorkInfo.State.SUCCEEDED -> {
+                                         // Upload succeeded
+                                         progressBar.visibility = View.INVISIBLE;
+                                         Toast.makeText(this, "Upload successful!", Toast.LENGTH_SHORT)
+                                             .show()
+                                     }
+
+                                     WorkInfo.State.FAILED -> {
+                                         // Upload failed
+                                         progressBar.visibility = View.INVISIBLE;
+                                         Toast.makeText(this, "Upload failed!", Toast.LENGTH_SHORT)
+                                             .show()
+                                     }
+
+                                     WorkInfo.State.RUNNING -> {
+                                         // Upload in progress
+                                         val progress = workInfo.progress.getInt("progress", 0)
+                                         progressBar.visibility = View.VISIBLE;
+                                         progressBar.progress = progress
+                                     }
+
+                                     else -> {
+                                         // Other states: ENQUEUED, CANCELLED, BLOCKED
+                                     }
+                                 }
+                             }
+                        }
+                    }
+            }
     }
 
     private fun getFilePathFromUri(uri: Uri): String {
@@ -160,6 +221,14 @@ class UploadScreen : AppCompatActivity() {
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true) // Allow multiple file selection
         }
         filePickerLauncher.launch(intent)
+    }
+
+    private fun saveLevelOfSliders(level : String){
+        val sharedPreferences : SharedPreferences = getSharedPreferences(resources.getString(R.string.save_level), MODE_PRIVATE);
+        val editor : Editor = sharedPreferences.edit();
+        editor.clear(); //clear previously stored values
+        editor.putString(resources.getString(R.string.save_level), level)
+        editor.apply();
     }
 
 }

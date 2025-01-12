@@ -29,5 +29,15 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:paddingTop="8dp" />
+   <Button
+       android:layout_width="wrap_content"
+       android:layout_height="40sp"
+       android:text="@string/logout"
+       android:textColor="@color/white"
+       android:layout_gravity="center"
+       android:layout_marginTop="16sp"
+       android:id="@+id/logout"
+       android:textAllCaps="false"
+       android:background="@android:color/holo_orange_dark"/>
     </LinearLayout>
 </RelativeLayout>

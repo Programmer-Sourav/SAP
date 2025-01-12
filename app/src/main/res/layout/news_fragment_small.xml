@@ -63,6 +63,12 @@
                     android:layout_marginTop="16sp"
                     android:gravity="start"/>
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/attachment"
+                android:layout_margin="16sp"
+                android:textColor="@android:color/holo_blue_dark"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
