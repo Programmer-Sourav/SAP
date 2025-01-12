@@ -12,3 +12,5 @@ Technical:
 2. Interacting with Backend APIs
 3. MVVM architecture
 4. Using widgets like Spinner, TextView, GridView etc.
+5. Use of Coroutines
+6. Use of Java Stream API
