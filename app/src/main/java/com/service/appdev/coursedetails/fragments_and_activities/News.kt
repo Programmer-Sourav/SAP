@@ -19,13 +19,10 @@ import com.service.appdev.coursedetails.R
 import com.service.appdev.coursedetails.adapters.NewsAdapter
 import com.service.appdev.coursedetails.interfaces.OnClickListenerForPosition
 import com.service.appdev.coursedetails.models.AnnouncementData
-import com.service.appdev.coursedetails.models.ApiService
 import com.service.appdev.coursedetails.models.ApiServiceBuilder
 import com.service.appdev.coursedetails.repository.CollegeManagementRepository
-import com.service.appdev.coursedetails.viewmodel.AdminManagementViewModel
 import com.service.appdev.coursedetails.viewmodel.AnnouncementDataState
 import com.service.appdev.coursedetails.viewmodel.CourseDetailsViewModel
-import com.service.appdev.coursedetails.viewmodelfactory.AdminManagementViewModelFactory
 import com.service.appdev.coursedetails.viewmodelfactory.CourseDetailsViewModelFactory
 
 class News : Fragment(), OnClickListenerForPosition {
@@ -95,5 +92,9 @@ class News : Fragment(), OnClickListenerForPosition {
         val linkAtPos = incomingNewsList[position].filePath;
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkAtPos));
         startActivity(intent);
+    }
+    fun showDialog() {
+        val progressDialog = CustomDialogFragment()
+        progressDialog.show(requireActivity().supportFragmentManager, "ProgressDialog")
     }
 }

@@ -45,7 +45,7 @@
 
     <fragment
         android:id="@+id/courseDetailsFragment"
-        android:name="com.service.appdev.coursedetails.fragments_and_activities.CourseDetails"
+        android:name="com.service.appdev.coursedetails.fragments_and_activities.CourseBrochures"
         android:label="Course Details"
         tools:layout="@layout/fragment_course_details" />
 </navigation>

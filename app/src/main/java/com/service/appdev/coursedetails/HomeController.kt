@@ -2,6 +2,7 @@ package com.service.appdev.coursedetails
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -57,6 +59,11 @@ class HomeController : AppCompatActivity() {
 
         val toolbar =  findViewById<Toolbar>(R.id.toolbar);
         toolbar.setupWithNavController(navController, appBarConfiguration)
+        toolbar.navigationIcon?.setColorFilter(
+            ContextCompat.getColor(this, R.color.white),
+            PorterDuff.Mode.SRC_IN
+        )
+
 
 
         navView =  findViewById<NavigationView>(R.id.nav_view)

@@ -20,11 +20,19 @@ interface ApiService {
 
     @GET("available_colleges")
     suspend fun getAvailableCollegesList() : CollegeResponse
+
     @GET("retrieve_slider_images")
     suspend fun getImagesList() : ImagesResponse
 
     @GET("available_courses/{collegeName}")
     suspend fun getAvailableCourseList(@Path("collegeName") collegeName: String): CourseResponse
+
+    @GET("available_brochures/{collegeName}")
+    suspend fun getAvailableBrochureList(@Path("collegeName") collegeName: String): BrochureResponse
+
+
+    @GET("available_colleges_by_course/{courseName}")
+    suspend fun getAvailableCollegesList(@Path("courseName") collegeName: String): CollegeResponse
 
     @GET("get_annoucement")
     suspend fun getAnnouncementsList() : AnnouncementResponse
@@ -40,65 +48,15 @@ interface ApiService {
 
     @POST("register_user")
     suspend fun attemptRegistration(@Body dataBody: Map<String, String>): LoginResponse
+
+    @POST("save_course")
+    suspend fun addCourseName(@Body dataBody: Map<String, String>): AddedCourseResponse
+
+    @GET("get_courses")
+    suspend fun getCourses(): CoursesAvailableList
+
 }
 
-
-/*object ApiServiceBuilder {
-    private const val BASE_URL = "https://www.travelsawari.com/index_course.php/" // Replace with your API URL
-    var savedLogin = MyApplication().getSavedLoginDetails();
-    val splitted = savedLogin?.split(",")
-    val authToken = splitted?.get(2)  // This will get the authToken value
-
-    val logging = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-
-    private val headerInterceptor = Interceptor { chain ->
-        val originalRequest = chain.request()
-        val requestBuilder = originalRequest.newBuilder()
-
-        // Add Authorization header only for specific endpoints
-        if (originalRequest.url.encodedPath.contains("post_application_form")) {
-            authToken?.let {
-                requestBuilder.addHeader("Authorization", "Bearer $it")
-            }
-        }
-
-        else if (originalRequest.url.encodedPath.contains("available_colleges")) {
-            authToken?.let {
-                requestBuilder.addHeader("Authorization", "Bearer $it")
-            }
-        }
-
-        else if (originalRequest.url.encodedPath.contains("available_courses/{collegeName}")) {
-            authToken?.let {
-                requestBuilder.addHeader("Authorization", "Bearer $it")
-            }
-        }
-
-        else if (originalRequest.url.encodedPath.contains("upload_documents")) {
-            authToken?.let {
-                requestBuilder.addHeader("Authorization", "Bearer $it")
-            }
-        }
-
-        chain.proceed(requestBuilder.build())
-    }
-
-    val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(headerInterceptor)
-        .addInterceptor(logging)
-        .build()
-
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)// Use GSON or another converter
-        .build()
-
-    val apiService: ApiService = retrofit.create(ApiService::class.java)
-
-}*/
 
 object ApiServiceBuilder {
     private const val BASE_URL = "https://www.travelsawari.com/index_course.php/" // Replace with your API URL
@@ -124,9 +82,10 @@ object ApiServiceBuilder {
             when {
                 originalRequest.url.encodedPath.contains("post_application_form") ||
                         originalRequest.url.encodedPath.contains("available_colleges") ||
-                        originalRequest.url.encodedPath.contains("available_courses")
+                        originalRequest.url.encodedPath.contains("available_courses")  ||
+                        originalRequest.url.encodedPath.contains("available_brochures")
                         -> {
-                    authToken?.let {
+                    authToken.let {
                         requestBuilder.addHeader("Authorization", "Bearer $it")
                     }
                 }

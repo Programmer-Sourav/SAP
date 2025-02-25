@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -22,8 +23,11 @@ import com.service.appdev.coursedetails.models.ApiServiceBuilder
 import com.service.appdev.coursedetails.models.ImageData
 import com.service.appdev.coursedetails.repository.CollegeManagementRepository
 import com.service.appdev.coursedetails.viewmodel.AdminManagementViewModel
+import com.service.appdev.coursedetails.viewmodel.AnnouncementDataState
+import com.service.appdev.coursedetails.viewmodel.CourseDetailsViewModel
 import com.service.appdev.coursedetails.viewmodel.ImageState
 import com.service.appdev.coursedetails.viewmodelfactory.AdminManagementViewModelFactory
+import com.service.appdev.coursedetails.viewmodelfactory.CourseDetailsViewModelFactory
 import java.util.stream.Collectors
 
 
@@ -41,8 +45,10 @@ class FrontPage  : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPager2: ViewPager2
     private lateinit var viewPager3: ViewPager2
-
+    private lateinit var newsMarquee : TextView
     private lateinit var viewModel: AdminManagementViewModel
+    private lateinit var viewModelAnnouncement: CourseDetailsViewModel
+
 
 
     override fun onCreate(savedInstanceState : Bundle?){
@@ -58,10 +64,19 @@ class FrontPage  : AppCompatActivity() {
             AdminManagementViewModelFactory(CollegeManagementRepository(apiService))
         )[AdminManagementViewModel::class.java]
 
+        viewModelAnnouncement = ViewModelProvider(
+            this,
+            CourseDetailsViewModelFactory(CollegeManagementRepository(apiService))
+        )[CourseDetailsViewModel::class.java]
+
+        viewModelAnnouncement.getAnnouncementList();
+
 
         viewPager = findViewById(R.id.viewpager)
         viewPager2 = findViewById(R.id.viewpager2)
         viewPager3 = findViewById(R.id.viewpager3)
+        newsMarquee = findViewById(R.id.news_marquee)
+        newsMarquee.setSelected(true);
 
         val nextBtn : Button = findViewById(R.id.nextBtn);
         val showNews : LinearLayout = findViewById(R.id.showNews);
@@ -81,6 +96,21 @@ class FrontPage  : AppCompatActivity() {
 
 
         viewModel.getImagesSlider();
+
+
+        viewModelAnnouncement.announcementDataState.observe(this, Observer { state->
+            when(state){
+                is AnnouncementDataState.Success ->{
+                    val newsList = state.announcementDetails;
+                    val lastElement = state.announcementDetails[newsList.size-1].header
+                    newsMarquee.text = lastElement;
+                }
+                is AnnouncementDataState.Error ->{
+                    Toast.makeText(this, state.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+
         viewModel.imageListState.observe(this, Observer {  state->
             when(state){
                 is ImageState.Success ->{
@@ -192,19 +222,19 @@ class FrontPage  : AppCompatActivity() {
     }
 
     private fun runSlider2(listOfImages : ArrayList<ImageData>) {
-        val handler = Handler(Looper.getMainLooper())
+        val handler2 = Handler(Looper.getMainLooper())
         val runnable = object : Runnable {
             override fun run() {
                 try {
                     val currentItem = viewPager2.currentItem
                     viewPager2.currentItem = (currentItem + 1) % listOfImages.size
-                    handler.postDelayed(this, 4000) // Change every 3 seconds
+                    handler2.postDelayed(this, 4000) // Change every 3 seconds
                 } catch (ex: RuntimeException) {
                     print("Divide By Zero Exception " + ex.printStackTrace());
                 }
             }
         }
-        handler.post(runnable)
+        handler2.post(runnable)
     }
 
     private fun runSlider3(listOfImages : ArrayList<ImageData>) {
@@ -227,5 +257,10 @@ class FrontPage  : AppCompatActivity() {
         val sharedPref: SharedPreferences = getSharedPreferences(getString(R.string.save_login_details),MODE_PRIVATE)
         val loginDetails = sharedPref.getString(getString(R.string.save_login_details), "defaultValue")
         return loginDetails;
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 }

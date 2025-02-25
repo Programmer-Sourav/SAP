@@ -37,6 +37,8 @@
         <activity android:name=".admin.upload.UploadScreen"/>
         <activity android:name=".fragments_and_activities.SuccessResponse"/>
         <activity android:name=".fragments_and_activities.RegisterUser"/>
+        <activity android:name=".fragments_and_activities.AddCourses"/>
+        <activity android:name=".admin.upload.BrochureUploadScreen"/>
     </application>
 
 </manifest>

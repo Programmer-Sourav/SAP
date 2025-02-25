@@ -50,6 +50,7 @@ class RegisterUser : AppCompatActivity() {
         loginBtn.setOnClickListener(View.OnClickListener {
             if(accountType.equals("Student"))
                 viewModel.userSignUp(userEmail.text.toString(), phoneNumber.text.toString(), userPassword.text.toString())
+                showDialog();
 //            else if(accountType.equals("Admin"))
 //                viewModel.adminLogin(userEmail.text.toString(), userPassword.text.toString())
 //            else
@@ -97,5 +98,9 @@ class RegisterUser : AppCompatActivity() {
         editor.clear(); //clear previously stored values
         editor.putString(getString(com.service.appdev.coursedetails.R.string.save_login_details), loginSp)
         editor.apply();
+    }
+    fun showDialog() {
+        val progressDialog = CustomDialogFragment()
+        progressDialog.show(supportFragmentManager, "ProgressDialog")
     }
 }

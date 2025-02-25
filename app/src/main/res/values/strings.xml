@@ -23,6 +23,7 @@
     <string name="joint_marks">Entrance Test Marks Details</string>
     <string name="joint_full_marks">Enter Rank</string>
     <string name="course_willing">Course willing to Study</string>
+    <string name="college_willing">College willing to Study</string>
     <string name="course_willing_to_take">Engineering/Medical/Nursing/B-Pharm</string>
     <string name="btn_text">Submit Form</string>
     <string name="available_colleges">Available Colleges</string>
@@ -72,6 +73,11 @@
     <string name="shareApp">Share App Link</string>
     <string name="share_subject">Download Student Admission Point App From Playstore</string>
     <string name="share_using">Share Link to</string>
+    <string name="upload_courses">Add Courses</string>
+    <string name="submit_button">Submit\n</string>
+    <string name="upload_brochures">Upload Brochures</string>
+    <string name="waiting">Please Wait...</string>
+    <string name="upload_receipt">Upload Payment Screenshot</string>
 
 
 </resources>

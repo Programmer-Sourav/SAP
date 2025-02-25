@@ -19,6 +19,7 @@
             android:layout_height="48dp"
             android:background="@color/purple_200"
             android:elevation="4dp"
+            app:titleTextColor="#FFFFFF"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             />

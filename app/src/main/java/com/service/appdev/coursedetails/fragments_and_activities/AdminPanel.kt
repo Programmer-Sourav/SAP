@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.service.appdev.coursedetails.R
+import com.service.appdev.coursedetails.admin.upload.BrochureUploadScreen
 import com.service.appdev.coursedetails.admin.upload.UploadScreen
 
 
@@ -18,6 +20,8 @@ class AdminPanel: AppCompatActivity() {
         val uploadImages = findViewById<Button>(com.service.appdev.coursedetails.R.id.uploadImages);
         val logout = findViewById<Button>(com.service.appdev.coursedetails.R.id.logout);
         val shareAppLink = findViewById<Button>(com.service.appdev.coursedetails.R.id.shareAppLink);
+        val addCourses = findViewById<Button>(R.id.uploadCousename)
+        val uploadBrochures = findViewById<Button>(R.id.uploadBrochures);
 
         uploadAnnouncement.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, MakeAnnouncement::class.java);
@@ -28,6 +32,12 @@ class AdminPanel: AppCompatActivity() {
             val uploadScreen = Intent(this, UploadScreen::class.java);
             uploadScreen.putExtra("uploaderType", "imageslider" );
             startActivity(uploadScreen);
+        })
+
+        uploadBrochures.setOnClickListener({
+            val uploadBrochures = Intent(this, BrochureUploadScreen::class.java)
+            uploadBrochures.putExtra("collegeName", "collegeName");
+            startActivity(uploadBrochures)
         })
 
         shareAppLink.setOnClickListener(View.OnClickListener {
@@ -49,6 +59,11 @@ class AdminPanel: AppCompatActivity() {
             resetSharedPreference();
             val intent = Intent(this@AdminPanel, FrontPage::class.java);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent)
+        })
+
+        addCourses.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this@AdminPanel, AddCourses::class.java);
             startActivity(intent)
         })
     }

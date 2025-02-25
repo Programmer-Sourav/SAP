@@ -52,6 +52,7 @@ class MakeAnnouncement : AppCompatActivity() {
 
         postAnnouncement.setOnClickListener({
             viewModel.saveAnnouncementDetails(announcementHeader.text.toString(), announcementDescription.text.toString(), announcementId)
+            showDialog();
         })
 
         viewModel.announcementState.observe(this, Observer { state ->
@@ -81,5 +82,9 @@ class MakeAnnouncement : AppCompatActivity() {
         val randomNumber = (100..9999).random()
         // Combine date-time string and random number to form an ID
         return "ID_${currentDateTime}_$randomNumber"
+    }
+    fun showDialog() {
+        val progressDialog = CustomDialogFragment()
+        progressDialog.show(supportFragmentManager, "ProgressDialog")
     }
 }

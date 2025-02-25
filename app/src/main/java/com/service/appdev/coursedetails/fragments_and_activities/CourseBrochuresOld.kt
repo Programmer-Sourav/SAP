@@ -8,27 +8,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.GridView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.service.appdev.coursedetails.R
+import com.service.appdev.coursedetails.adapters.CustomImageListAdapter
 import com.service.appdev.coursedetails.adapters.CustomSpinnerAdapter
 import com.service.appdev.coursedetails.models.ApiServiceBuilder
+import com.service.appdev.coursedetails.models.CourseBrochure
 import com.service.appdev.coursedetails.models.CourseDetails
 import com.service.appdev.coursedetails.repository.CollegeManagementRepository
-import com.service.appdev.coursedetails.viewmodel.CourseDataState
+import com.service.appdev.coursedetails.viewmodel.BrochureDataState
 import com.service.appdev.coursedetails.viewmodel.CourseDetailsState
 import com.service.appdev.coursedetails.viewmodel.CourseDetailsViewModel
 import com.service.appdev.coursedetails.viewmodelfactory.CourseDetailsViewModelFactory
 
-class CourseDetails : Fragment() {
+class CourseBrochuresOld  : Fragment() {
     private lateinit var view: View;
 
-   // private val apiService = ApiServiceBuilder.apiService
+    // private val apiService = ApiServiceBuilder.apiService
 //    private val viewModel: CourseDetailsViewModel by viewModels{
 //        CourseDetailsViewModelFactory(CollegeManagementRepository(apiService))
 //    }
@@ -37,20 +40,21 @@ class CourseDetails : Fragment() {
 
     private lateinit var customAdapter: CustomSpinnerAdapter
 
+    private var brochureList : ArrayList<CourseBrochure> = ArrayList();
     private var courseList : ArrayList<CourseDetails> = ArrayList();
 
     private var selectedCollege : String = "";
 
-    private lateinit var coursesGridView : GridView;
+    private lateinit var coursesBrochureList : RecyclerView;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        view = inflater.inflate(R.layout.fragment_course_details, container, false)
+        view = inflater.inflate(R.layout.fragment_brochure_details, container, false)
 
         myAvailableColleges = view.findViewById<Spinner>(R.id.my_available_colleges);
         val collegeNotSelected = view.findViewById<TextView>(R.id.collegeNotSelected);
-        coursesGridView = view.findViewById<GridView>(R.id.gridView);
+        coursesBrochureList = view.findViewById<RecyclerView>(R.id.brochureList);
         val shareAppLink = view.findViewById<TextView>(R.id.shareAppLink);
 
         val apiService = ApiServiceBuilder.createApiService(requireContext())
@@ -59,12 +63,29 @@ class CourseDetails : Fragment() {
             CourseDetailsViewModelFactory(CollegeManagementRepository(apiService))
         )[CourseDetailsViewModel::class.java]
 
+
+
+        viewModel.brochureDetailsState.observe(viewLifecycleOwner, Observer { state->
+            when(state){
+                is BrochureDataState.Success->{
+                    val brochureImagesList = state.brochureDetails.map{it.brochureImages}
+                    //setupSpinner(brochureImagesList) // Pass the list to the spinner setup method
+                    setUpRecyclerView(brochureImagesList as ArrayList<String>)
+                }
+
+                is BrochureDataState.Error->{
+                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        })
+
         viewModel.getCollegesList();
 
         viewModel.courseDetailsState.observe(viewLifecycleOwner, Observer { state->
             when(state){
                 is CourseDetailsState.Success->{
-                   val collegeList = state.collegeList.map{it.collegeName}
+                    val collegeList = state.collegeList.map{it.collegeName}
                     setupSpinner(collegeList) // Pass the list to the spinner setup method
                 }
 
@@ -73,19 +94,6 @@ class CourseDetails : Fragment() {
                 }
             }
 
-        })
-
-        viewModel.courseDataState.observe(viewLifecycleOwner, Observer { state->
-            when(state){
-                is CourseDataState.Success->{
-                    //courseList  = state.courseDetails.map { CourseData(it.courseName, it.img_url) } as ArrayList<CourseData>
-                    courseList = state.courseDetails
-                    setUpGridView(courseList);
-                }
-                is CourseDataState.Error->{
-                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
-                }
-            }
         })
 
         shareAppLink.setOnClickListener(View.OnClickListener {
@@ -102,33 +110,24 @@ class CourseDetails : Fragment() {
             /*Fire!*/
             startActivity(Intent.createChooser(intent, getString(com.service.appdev.coursedetails.R.string.share_using)))
         })
- //       val dummyCourseList = ArrayList<CourseData>();
+        //       val dummyCourseList = ArrayList<CourseData>();
 //        dummyCourseList.add(CourseData("CSE", R.drawable.cse));
 //        dummyCourseList.add(CourseData("ECE", R.drawable.ece));
 //        dummyCourseList.add(CourseData("IT", R.drawable.ites));
-
-        coursesGridView.setOnItemClickListener { parent, view, position, id ->
-            // Handle the click event here
-            val selectedItem = courseList[position]
-            Toast.makeText(context, "Viewing Details For: ${selectedItem.courseName}", Toast.LENGTH_SHORT).show()
-            val i : Intent = Intent(requireActivity(), SingleCourseDetails::class.java)
-             i.putParcelableArrayListExtra("courseList", courseList);
-             i.putExtra("position", position.toString())
-            startActivity(i)
-        }
-
-
         return view;
     }
 
-    private fun setUpGridView(courseList : ArrayList<CourseDetails>){
-        if(courseList.size>0) {
-            customAdapter = CustomSpinnerAdapter(requireActivity(), R.layout.grid_item, courseList)
-            coursesGridView.adapter = customAdapter
-        }
+    private fun setUpRecyclerView(brochureList: ArrayList<String>) {
+        val adapter = CustomImageListAdapter( brochureList, requireActivity() )
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        coursesBrochureList.adapter = adapter;
+        coursesBrochureList.layoutManager = layoutManager
     }
+
+
     private fun setupSpinner(collegeList: List<String>) {
-        val updatedCollegeList = mutableListOf("No course selected")
+        val updatedCollegeList = mutableListOf("No college selected")
         updatedCollegeList.addAll(collegeList)
 
         val adapter = ArrayAdapter(
@@ -144,7 +143,8 @@ class CourseDetails : Fragment() {
                 Log.i("Snath ", "position "+position)
                 if (selectedCollege != null) {
                     Log.d("SelectedCourse", selectedCollege)
-                    viewModel.getCourseListByCollege(selectedCollege);
+                    //viewModel.getCourseListByCollege(selectedCollege);
+                    viewModel.getBrochureListByCollege(selectedCollege);
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -154,3 +154,6 @@ class CourseDetails : Fragment() {
     }
 
 }
+
+
+

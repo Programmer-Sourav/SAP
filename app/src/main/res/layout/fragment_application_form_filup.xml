@@ -310,27 +310,31 @@
         android:layout_margin="16dp"
         android:id="@+id/course_willing"
         android:layout_below="@+id/phone_number_input"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder"
+        android:layout_below="@+id/course_willing">
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:hint="Select"
         android:importantForAutofill="no"
-        android:layout_below="@+id/course_willing"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:dropDownSelector="@color/purple_500"
-        android:entries="@array/courses_items"
         android:id="@+id/course_willing_input"
         android:spinnerMode="dropdown"
         android:background="@drawable/spinner_bg"
         android:popupBackground="@drawable/your_popup_background"
         android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/selectedCoursesText"
     android:text="@string/selected_courses"
-    android:layout_below="@+id/course_willing_input"
+    android:layout_below="@+id/spinnerHolder"
     android:layout_margin="16sp"/>
 <LinearLayout
     android:layout_width="match_parent"
@@ -339,9 +343,76 @@
     android:layout_below="@+id/selectedCoursesText"
     android:id="@+id/linearLayout"
     android:orientation="vertical"/>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/college_willing"
+        android:layout_margin="16dp"
+        android:id="@+id/college_willing"
+        android:layout_below="@+id/linearLayout"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder1"
+        android:layout_below="@+id/college_willing">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/college_willing_input"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/qrprompt"
+        android:layout_below="@+id/spinnerHolder1"
+        android:layout_margin="16sp"
+        android:text="Please scan the QR code to Pay!"/>
+    <ImageView
+        android:layout_width="512px"
+        android:layout_height="512px"
+        android:id="@+id/qrcode"
+        android:layout_margin="16sp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/qrprompt"
+        android:src="@drawable/qrscan"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/upload_receipt"
+        android:background="@color/purple_200"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:id="@+id/btnSelectReceipt"
+        android:layout_below="@+id/qrcode"
+        android:layout_centerInParent="true"
+        android:layout_margin="64dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSelectReceipt"
+        android:id="@+id/verificationStatus"
+        android:layout_marginLeft="32sp"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="16sp"/>
 
 </RelativeLayout>
+    <ProgressBar
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:layout_gravity="center_vertical|center_horizontal"/>
     <Button
         android:layout_width="256dp"
         android:layout_height="40dp"

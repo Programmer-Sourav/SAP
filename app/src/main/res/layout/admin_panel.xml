@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,6 +10,18 @@
         android:gravity="center_horizontal|center_vertical"
         android:textColor="@color/white"
         android:text="@string/adminpanel_header"/>
+    <Button
+        android:layout_width="192sp"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_courses"
+        android:background="@color/purple_700"
+        android:textColor="@color/white"
+        android:padding="16sp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="16sp"
+        android:textAllCaps="false"
+        android:layout_marginTop="64sp"
+        android:id="@+id/uploadCousename"/>
     <Button
         android:layout_width="192sp"
         android:layout_height="wrap_content"
@@ -38,6 +50,19 @@
     <Button
         android:layout_width="192sp"
         android:layout_height="wrap_content"
+        android:text="@string/upload_brochures"
+        android:background="@color/purple_700"
+        android:textColor="@color/white"
+        android:padding="16sp"
+        android:layout_below="@+id/uploadImages"
+        android:layout_centerInParent="true"
+        android:textAllCaps="false"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="16sp"
+        android:id="@+id/uploadBrochures"/>
+    <Button
+        android:layout_width="192sp"
+        android:layout_height="wrap_content"
         android:text="@string/shareApp"
         android:background="@color/purple_700"
         android:textColor="@color/white"
@@ -56,6 +81,6 @@
         android:id="@+id/logout"
         android:textAllCaps="false"
         android:layout_below="@+id/shareAppLink"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:textColor="@color/white" />
-</RelativeLayout>
+</LinearLayout>

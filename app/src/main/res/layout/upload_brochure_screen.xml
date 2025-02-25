@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16sp"
+        android:textStyle="bold"
+        android:id="@+id/toptext"
+        android:textColor="@color/black"
+        android:padding="16sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_marginTop="128sp"
+        android:layout_marginLeft="64sp"
+        android:layout_marginRight="64sp"
+        android:layout_below="@+id/toptext"
+        android:id="@+id/collegeNameEdt"
+        android:hint="College Name..."
+        android:background="@drawable/edittext_bg"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/upload_button"
+        android:background="@color/purple_200"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:id="@+id/btnSelectFile"
+        android:layout_centerInParent="true"
+        android:layout_margin="64dp"/>
+    <Button
+        android:layout_width="128sp"
+        android:layout_height="48sp"
+        android:text="@string/submit_button"
+        android:background="@color/purple_700"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:id="@+id/btnSubmit"
+        android:gravity="center"
+        android:layout_below="@+id/btnSelectFile"
+        android:layout_centerInParent="true"
+        android:layout_margin="64dp"/>
+    <ProgressBar
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+</RelativeLayout>

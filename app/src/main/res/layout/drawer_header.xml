@@ -2,18 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="256dp"
+    android:layout_height="280dp"
     android:background="@color/header_background"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="8sp"
         android:layout_centerInParent="true"
         android:orientation="vertical">
     <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
+        android:layout_marginTop="48sp"
         android:contentDescription="@string/user_image"
         android:src="@drawable/image"
         android:id="@+id/headerImg"

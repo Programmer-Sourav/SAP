@@ -36,13 +36,20 @@
       android:text="@string/news"/>
    <TextView
        android:layout_width="wrap_content"
-       android:layout_height="32sp"
+       android:layout_height="wrap_content"
        android:textSize="20sp"
        android:paddingLeft="16sp"
        android:paddingRight="16sp"
+       android:ellipsize="marquee"
+       android:marqueeRepeatLimit="marquee_forever"
        android:layout_marginLeft="16sp"
+       android:id="@+id/news_marquee"
+       android:scrollHorizontally="true"
+       android:singleLine="true"
+       android:focusable="true"
+       android:focusableInTouchMode="true"
        android:textColor="@android:color/holo_red_dark"
-       android:text="Admission Starts"/>
+       />
   </LinearLayout>
  </LinearLayout>
  <androidx.viewpager2.widget.ViewPager2
@@ -76,7 +83,7 @@
     android:layout_margin="32dp"
     android:id="@+id/nextBtn"
     android:text="@string/next"
-    android:background="@color/design_default_color_primary"
+    android:background="@color/purple_700"
     android:textColor="@color/white"
     android:textAllCaps="false"
     android:layout_gravity="center_horizontal"

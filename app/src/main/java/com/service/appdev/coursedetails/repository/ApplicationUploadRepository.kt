@@ -3,6 +3,7 @@ package com.service.appdev.coursedetails.repository
 import android.util.Log
 import com.service.appdev.coursedetails.models.ApiService
 import com.service.appdev.coursedetails.models.ApplicationFormResponseWrapper
+import com.service.appdev.coursedetails.models.CoursesAvailableList
 
 class ApplicationUploadRepository(private val apiService: ApiService) {
     suspend fun saveApplicationDetails(
@@ -15,7 +16,8 @@ class ApplicationUploadRepository(private val apiService: ApiService) {
         state: String, pinCodeStr: String,
         phoneNumber: String, courseWillingToStudy: String,
         studentEmail : String,
-        username: String
+        username: String,
+        selectedCollege: String
     ): ApplicationFormResponseWrapper {
 
         // Prepare the application data as a map
@@ -37,12 +39,17 @@ class ApplicationUploadRepository(private val apiService: ApiService) {
             "phoneNumber" to phoneNumber,
             "course_willing_to_study" to courseWillingToStudy,
             "studentEmail" to studentEmail,
-            "username" to username
+            "username" to username,
+            "selectedCollege" to selectedCollege
         );
 
         // Make the API call
         val response = apiService.saveApplicationDetails(dataBody);
         Log.i("API Response", response.toString())
         return response;
+    }
+
+    suspend fun getCourses(): CoursesAvailableList {
+        return apiService.getCourses();
     }
 }
