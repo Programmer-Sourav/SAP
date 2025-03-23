@@ -275,6 +275,20 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
         selectedCollegesForTheCourse.addAll(listOf(selectedColleges))
 
         collegesToCourse.put(selectedCourse, selectedCollegesForTheCourse)
+
+        for(item in collegesToCourse.entries){
+            Log.d("Snath ", "Values "+item + ", "+ collegesToCourse.getValue(item.toString()))
+        }
+
+        for ((key, value1) in collegesToCourse.entries) {
+            // Adding some bonus marks to all the students
+            val value = value1;
+
+
+            // Printing above marks corresponding to
+            // students names
+            println("Values $key : $value")
+        }
         // Optionally set up an item selected listener for the spinner (collapsed view)
         myAvailableColleges.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -401,10 +415,18 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
 
 
         submitForm?.setOnClickListener(View.OnClickListener {
-//            var upiId: String = "";
-//            var amountPaid: String = "";
-//            var dateTime : String = "";
-//            var status: String = "";
+            /**Get the value for each course and selected colleges **/
+            for ((key, value1) in collegesToCourse.entries) {
+                var value = value1;
+                for(item in value){
+                    for((key1, value2) in item.entries) {
+                        var insideKey = key1
+                        var insideValue = value2
+                        println("Values1 $insideKey : $insideValue")
+                    }
+                }
+                println("Values $key : $value ")
+            }
             if(receiptData.size>0) {
                 for ((key, value) in receiptData.entries) {
                     if (key.equals("Amount"))
@@ -725,7 +747,7 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     if (selectedCourse != "Select Course") {
                         // cdViewModel.getCourseListByCollege(selectedCourse);
                         for (item in addedItems){
-                            selectedCourse = "$selectedCourse, $item";
+                            //selectedCourse = "$selectedCourse, $item";
                         }
                         cdViewModel.getCollegeListByCourse(selectedCourse);
                     }
@@ -906,5 +928,31 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+       /* for ((key, value1) in collegesToCourse.entries) {
+            var value = value1;
+             for(item in value){
+                 for((key1, value2) in item.entries) {
+                     var insideKey = key1
+                     var insideValue = value2
+                     println("Values1 $insideKey : $insideValue")
+                 }
+             }
+            println("Values $key : $value ")
+        }*/
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
 }
