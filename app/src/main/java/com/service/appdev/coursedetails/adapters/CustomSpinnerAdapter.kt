@@ -41,6 +41,10 @@ class CustomSpinnerAdapter(
         collegeNameTextView.text = courseList[position].courseName;
 
         return view
+
+        /**
+         * return getView(position, convertView, parent); // Reuse getView for dropdown
+         */
     }
 
     override fun getCount(): Int {

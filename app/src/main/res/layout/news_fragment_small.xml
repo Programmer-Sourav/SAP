@@ -52,16 +52,18 @@
                     android:src="@drawable/announcement"
                     android:layout_marginTop="16sp"
                     android:padding="16sp"/>
+
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:id="@+id/announcement_notice"
-                    android:text="Lorem ipsum...Loren ipsum...Loren ipsum...Loren ipsum...Loren...ipsum... loren... ipsum......."
-                    android:textSize="16sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="408dp"
+                    android:layout_marginTop="16sp"
+                    android:gravity="start"
+                    android:minHeight="252px"
                     android:paddingStart="16sp"
                     android:paddingEnd="16sp"
-                    android:layout_marginTop="16sp"
-                    android:gravity="start"/>
+                    android:text="Lorem ipsum...Loren ipsum...Loren ipsum...Loren ipsum...Loren...ipsum... loren... ipsum......."
+                    android:textSize="16sp" />
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"

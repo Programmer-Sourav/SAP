@@ -39,8 +39,8 @@ import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.service.appdev.coursedetails.R
+import com.service.appdev.coursedetails.adapters.CustomCollegeListSpinner
 import com.service.appdev.coursedetails.adapters.CustomeCourseAdapter
-import com.service.appdev.coursedetails.admin.upload.BrochureUploadWorker
 import com.service.appdev.coursedetails.databinding.FragmentApplicationFormFilupBinding
 import com.service.appdev.coursedetails.models.ApiService
 import com.service.appdev.coursedetails.models.ApiServiceBuilder
@@ -62,6 +62,7 @@ import java.util.Date
 
 class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
 
+    private lateinit  var adapter: CustomCollegeListSpinner
     private lateinit var entranceIdSelected: String;
 
     private var _binding: FragmentApplicationFormFilupBinding? = null;
@@ -94,6 +95,10 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
     private var userUniqueId: String = "";
     private lateinit var progressBar: ProgressBar
     private lateinit var filePaths : ArrayList<String>;
+    //ONE course to MANY colleges relationship
+    private var collegesToCourse : HashMap<String, ArrayList<HashMap<String, Boolean>>> = HashMap<String, ArrayList<HashMap<String, Boolean>>>();
+    lateinit var collegeList: List<String>;
+    val selectedColleges = HashMap<String, Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -124,13 +129,16 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
         progressBar = binding?.progressBar!!;
 
         val btnUploadScreenshot = _binding!!.btnSelectReceipt;
+
+        Log.d("Snath ", "Selected Colleges Size "+selectedColleges.size)
+
         if (btnUploadScreenshot != null) {
             btnUploadScreenshot.setOnClickListener {
                 openFilePicker()
             }
         }
 
-
+//        Log.d("Snath ", "Selected College "+CollegeCompanionObject.selectedColleges.size)
         viewModel.courseAvailableState.observe(requireActivity(), Observer { state ->
             when (state) {
                 is CoursesAvailableState.Error -> Toast.makeText(
@@ -150,8 +158,9 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
         cdViewModel.courseDetailsState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is CourseDetailsState.Success -> {
-                    val collegeList = state.collegeList.map { it.collegeName }
-                    setupSpinnerForCollgeList(collegeList) // Pass the list to the spinner setup method
+                    collegeList = state.collegeList.map { it.collegeName }
+                    setupSpinnerForCollegeList(collegeList) // Pass the list to the spinner setup method
+                    Log.d("Snath ", "CollegeList "+collegeList.size)
                 }
 
                 is CourseDetailsState.Error -> {
@@ -159,6 +168,8 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
         })
+
+
         return binding?.root;
     }
 
@@ -242,37 +253,67 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
         }
         filePickerLauncher.launch(intent)
     }
-    private fun setupSpinnerForCollgeList(collegeList: List<String>) {
+    // Track selected colleges
+
+    private fun setupSpinnerForCollegeList(collegeList: List<String>) {
         val updatedCollegeList = mutableListOf("No course selected")
         updatedCollegeList.addAll(collegeList)
 
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            updatedCollegeList
-        ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+        Log.d("Snath", "Selected Colleges Size " + selectedColleges.size)
 
+        adapter = CustomCollegeListSpinner(
+            requireContext(),
+            R.layout.multiselection_spinner,
+            updatedCollegeList as ArrayList<String>,
+            selectedColleges
+        )
+
+        // You no longer need to setDropDownViewResource, as we've handled dropdown in getDropDownView
         myAvailableColleges.adapter = adapter
-        myAvailableColleges.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedCollege = updatedCollegeList[position]
-                Log.i("Snath ", "position " + position)
-                if (selectedCollege != null) {
-                    Log.d("SelectedCourse", selectedCourse)
-                    // cdViewModel.getCourseListByCollege(selectedCourse);
+
+        val selectedCollegesForTheCourse = ArrayList<HashMap<String, Boolean>>();
+        selectedCollegesForTheCourse.addAll(listOf(selectedColleges))
+
+        collegesToCourse.put(selectedCourse, selectedCollegesForTheCourse)
+        // Optionally set up an item selected listener for the spinner (collapsed view)
+        myAvailableColleges.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val itemAtPosition: String = myAvailableColleges.getItemAtPosition(position).toString()
+                    Log.d("Snath", "Item At Position $itemAtPosition")
+
+                    // Update the selectedColleges map based on the item selected
+                    if (selectedColleges[itemAtPosition] == true) {
+                        // If already selected, unselect it
+                        selectedColleges[itemAtPosition] = false
+                    } else {
+                        // If not selected, select it
+                        selectedColleges[itemAtPosition] = true
+                    }
+
+                    // Notify the adapter to update the spinner view
+                    adapter.notifyDataSetChanged()
+
+                    // Log the selected colleges
+                    Log.d("Snath", "Selected Items: ${selectedColleges.keys}")
+
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Handle when nothing is selected (if needed)
+                    val itemAtPosition: String =
+                        myAvailableColleges.getItemAtPosition(0).toString()
+                    selectedColleges.put(itemAtPosition, true)
+                    val selectedItems = adapter.getSelectedItems()
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle no selection
-            }
-        }
-    }
+}
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -384,18 +425,91 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     verificationStatus.text = "Manual Verification pending."
                 }
             }
-            if (binding?.studentFirstName?.text.toString()
-                    .isNotEmpty() && binding?.studentLastName?.text.toString()
-                    .isNotEmpty() && binding?.parentFirstName?.text.toString().isNotEmpty()
-                && binding?.parentLastName?.text.toString()
-                    .isNotEmpty() && binding?.fullSchoolName?.text.toString()
-                    .isNotEmpty() && binding?.fullTwelfthMarks?.text.toString().isNotEmpty()
-                && binding?.fullTenthMarks?.text.toString()
-                    .isNotEmpty() && binding?.fullJointMarks?.text.toString().isNotEmpty() &&
-                binding?.studentEmailEt?.text.toString()
-                    .isNotEmpty()
-            ) {
-                Log.d("Snath ", "Receipt Data "+amountPaid +", "+upiId +", "+dateTime+", "+status)
+//            if (binding?.studentFirstName?.text.toString()
+//                    .isNotEmpty() && binding?.studentLastName?.text.toString()
+//                    .isNotEmpty() && binding?.parentFirstName?.text.toString().isNotEmpty()
+//                && binding?.parentLastName?.text.toString()
+//                    .isNotEmpty() && binding?.fullSchoolName?.text.toString()
+//                    .isNotEmpty() && binding?.fullTwelfthMarks?.text.toString().isNotEmpty()
+//                && binding?.fullTenthMarks?.text.toString()
+//                    .isNotEmpty() && binding?.fullJointMarks?.text.toString().isNotEmpty() &&
+//                binding?.studentEmailEt?.text.toString()
+//                    .isNotEmpty()
+//            )
+
+                if (binding?.studentFirstName?.text!!.isEmpty()) {
+                    binding?.studentFirstName?.error = "Please Enter Student's First Name";
+                    showErrorToast();
+                }
+                else if (binding?.studentLastName?.text!!.isEmpty()) {
+                    binding?.studentLastName?.error = "Please Enter Student's Last Name";
+                    showErrorToast();
+                }
+                else if (binding?.parentFirstName?.text!!.isEmpty()) {
+                    binding?.parentFirstName?.error = "Please Enter Student's Last Name";
+                    showErrorToast();
+                }
+                else if (binding?.parentLastName?.text!!.isEmpty()) {
+                    binding?.parentLastName?.error = "Please Enter Student's Last Name";
+                    showErrorToast();
+                }
+                else if (binding?.fullSchoolName?.text!!.isEmpty()) {
+                    binding?.fullSchoolName?.error = "Please Enter Student's Last Name";
+                    showErrorToast();
+                }
+                else if (binding?.fullTwelfthMarks?.text!!.isEmpty()) {
+                    binding?.fullTwelfthMarks?.error = "Please Enter Student's Last Name";
+                    showErrorToast();
+                }
+                else if (binding?.fullTenthMarks?.text!!.isEmpty()) {
+                    binding?.fullTenthMarks?.error = "Please Enter Student's Last Name";
+                    showErrorToast();
+                }
+                else if(binding?.fullJointMarks?.text!!.isEmpty()){
+                    binding?.fullJointMarks?.error = "Please Enter Marks"
+                    showErrorToast();
+                }
+                else if(binding?.streetAddress1?.text!!.isEmpty()){
+                    binding?.streetAddress1?.error = "Please Enter Address."
+                    showErrorToast();
+                }
+                else if(binding?.streetAddress2?.text!!.isEmpty()){
+                    binding?.streetAddress2?.error = "Please Enter Address"
+                    showErrorToast();
+                }
+                else if(binding?.city?.text!!.isEmpty()){
+                    binding?.city?.error = "Please Enter City"
+                    showErrorToast();
+                }
+                else if(binding?.state?.text!!.isEmpty()){
+                    binding?.state?.error = "Please Enter State"
+                    showErrorToast();
+                }
+                else if(binding?.pincode?.text!!.isEmpty()){
+                    binding?.pincode?.error = "Please Enter Pincode"
+                    showErrorToast();
+                }
+                else if(binding?.phoneNumberInput?.text!!.isEmpty()){
+                    binding?.phoneNumberInput?.error = "Please Enter Phone Number"
+                    showErrorToast();
+                }
+                else if(binding?.studentEmailEt?.text!!.isEmpty()){
+                    binding?.studentEmailEt?.error = "Please Enter Student's Email"
+                    showErrorToast();
+                }
+                else if (!binding?.studentEmailEt?.text.toString()
+                        .lowercase()
+                        .matches(Regex("^[^@]+@[^@]+\\.[^@]+$"))) {
+                    binding?.studentEmailEt?.error = "Please Enter Valid Email"
+                    showErrorToast();
+                }
+                else
+                 {
+                     showInfoToast();
+                Log.d(
+                    "Snath ",
+                    "Receipt Data " + amountPaid + ", " + upiId + ", " + dateTime + ", " + status
+                )
                 var listConvertedToString = "";
 
                 for (item in copiedItems) {
@@ -403,30 +517,30 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                 }
 
 
-                //validateInputs()
-                viewModel.saveApplicationDetails(
-                    binding?.studentFirstName?.text.toString(),
-                    binding?.studentLastName?.text.toString(),
-                    binding?.parentFirstName?.text.toString(),
-                    binding?.parentLastName?.text.toString(),
-                    binding?.fullSchoolName?.text.toString(),
-                    binding?.fullTwelfthMarks?.text.toString(),
-                    binding?.fullTenthMarks?.text.toString(),
-                    entranceIdSelected,
-                    binding?.fullJointMarks?.text.toString(),
-                    binding?.streetAddress1?.text.toString(),
-                    binding?.streetAddress2?.text.toString(),
-                    binding?.city?.text.toString(),
-                    binding?.state?.text.toString(),
-                    binding?.pincode?.text.toString(),
-                    binding?.phoneNumberInput?.text.toString(),
-                    listConvertedToString,
-                    binding?.studentEmailEt?.text.toString(),
-                    username,
-                    selectedCollege
-                )
-                showDialog();
-            }
+                    //validateInputs()
+                    viewModel.saveApplicationDetails(
+                        binding?.studentFirstName?.text.toString(),
+                        binding?.studentLastName?.text.toString(),
+                        binding?.parentFirstName?.text.toString(),
+                        binding?.parentLastName?.text.toString(),
+                        binding?.fullSchoolName?.text.toString(),
+                        binding?.fullTwelfthMarks?.text.toString(),
+                        binding?.fullTenthMarks?.text.toString(),
+                        entranceIdSelected,
+                        binding?.fullJointMarks?.text.toString(),
+                        binding?.streetAddress1?.text.toString(),
+                        binding?.streetAddress2?.text.toString(),
+                        binding?.city?.text.toString(),
+                        binding?.state?.text.toString(),
+                        binding?.pincode?.text.toString(),
+                        binding?.phoneNumberInput?.text.toString(),
+                        listConvertedToString,
+                        binding?.studentEmailEt?.text.toString(),
+                        username,
+                        selectedCollege
+                    )
+                    showDialog();
+                }
         })
 
 
@@ -453,6 +567,13 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
         })
 
 
+    }
+
+    private fun showErrorToast() {
+       Toast.makeText(requireActivity(), "Please fill all the fields!", Toast.LENGTH_SHORT).show();
+    }
+    private fun showInfoToast() {
+        Toast.makeText(requireActivity(), "Submitting Data!", Toast.LENGTH_SHORT).show();
     }
 
     private fun validateInputs(
@@ -601,9 +722,13 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     addedItems.add(selectedCourse)
                     copiedItems.add(selectedCourse);
                     setTextViews()
-                    if (selectedCourse != "Select Course")
-                    // cdViewModel.getCourseListByCollege(selectedCourse);
+                    if (selectedCourse != "Select Course") {
+                        // cdViewModel.getCourseListByCollege(selectedCourse);
+                        for (item in addedItems){
+                            selectedCourse = "$selectedCourse, $item";
+                        }
                         cdViewModel.getCollegeListByCourse(selectedCourse);
+                    }
                 }
 
             }
@@ -780,4 +905,6 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
     }
+
+
 }
