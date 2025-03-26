@@ -8,6 +8,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -16,8 +18,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -55,7 +60,9 @@ import com.service.appdev.coursedetails.viewmodel.CourseDetailsViewModel
 import com.service.appdev.coursedetails.viewmodel.CoursesAvailableState
 import com.service.appdev.coursedetails.viewmodelfactory.ApplicationFormViewModelFactory
 import com.service.appdev.coursedetails.viewmodelfactory.CourseDetailsViewModelFactory
+import org.json.JSONObject
 import java.io.File
+import java.lang.Integer.parseInt
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -76,10 +83,23 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
     val addedItems = ArrayList<String>()
     val copiedItems = ArrayList<String>()
     private val coursesAvailable = ArrayList<CoursesAvailableData>();
+    private val coursesAvailable2 = ArrayList<CoursesAvailableData>();
+    private val coursesAvailable3 = ArrayList<CoursesAvailableData>();
+    private val coursesAvailable4 = ArrayList<CoursesAvailableData>();
+    private val coursesAvailable5 = ArrayList<CoursesAvailableData>();
+
     private var selectedCourse: String = "Select Course";
     lateinit var cwadapter: CustomeCourseAdapter;
     lateinit var courseWillingInput: Spinner;
     lateinit var myAvailableColleges: Spinner;
+    lateinit var courseWillingInput2: Spinner;
+    lateinit var myAvailableColleges2: Spinner;
+    lateinit var courseWillingInput3: Spinner;
+    lateinit var myAvailableColleges3: Spinner;
+    lateinit var courseWillingInput4: Spinner;
+    lateinit var myAvailableColleges4: Spinner;
+    lateinit var courseWillingInput5: Spinner;
+    lateinit var myAvailableColleges5: Spinner;
     private var selectedCollege: String = "";
     private var isLargeLayout: Boolean = false;
     private lateinit var uploadWorkRequest: OneTimeWorkRequest
@@ -93,12 +113,38 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
     private var dateTime : String = "";
     private var status: String = "";
     private var userUniqueId: String = "";
+    private lateinit var tenthschoolName : EditText;
+    private lateinit var passingYear: EditText;
+    private lateinit var rollNumber: EditText;
+    private lateinit var tenthTotalMarks:  EditText;
+    private lateinit var tenthObtainedMarks: EditText;
+    private lateinit var tenthScore: TextView
+
+    private lateinit var twelfthSchoolName : EditText;
+    private lateinit var twelfthPassingYear: EditText;
+    private lateinit var twelfthRollNumber: EditText;
+    private lateinit var twelfthTotalMarks: EditText;
+    private lateinit var twelfthObtainedMarks: EditText;
+    private lateinit var twelfthTenthScore: TextView
+
+    private lateinit var radioGroupCaste : RadioGroup
+    private lateinit var radioSelected: String;
+
+
     private lateinit var progressBar: ProgressBar
     private lateinit var filePaths : ArrayList<String>;
     //ONE course to MANY colleges relationship
     private var collegesToCourse : HashMap<String, ArrayList<HashMap<String, Boolean>>> = HashMap<String, ArrayList<HashMap<String, Boolean>>>();
-    lateinit var collegeList: List<String>;
-    val selectedColleges = HashMap<String, Boolean>()
+    lateinit var collegeList: ArrayList<String>;
+    lateinit var collegeList2: ArrayList<String>;
+    lateinit var collegeList3: ArrayList<String>;
+    lateinit var collegeList4: ArrayList<String>;
+    lateinit var collegeList5: ArrayList<String>;
+
+    lateinit var spinner : String;
+    private var selectedRadioText = "Not Selected";
+
+    //val selectedColleges = HashMap<String, Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,7 +153,13 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
     ): View? {
         _binding = FragmentApplicationFormFilupBinding.inflate(inflater, container, false);
         val qrImage = _binding!!.qrcode;
+        tenthTotalMarks = _binding?.totalMarkEt!!;
+        tenthObtainedMarks = _binding?.obtainedMarkEt!!;
+        twelfthTotalMarks = _binding?.totalMarkEt12!!;
+        twelfthObtainedMarks = _binding?.obtainedMarkEt12!!
         myAvailableColleges = _binding?.collegeWillingInput!!;
+        twelfthTenthScore = _binding?.scoreEt12!!;
+        tenthScore = _binding?.scoreEt!!;
         val apiService = ApiServiceBuilder.createApiService(requireActivity())
         viewModel = ViewModelProvider(
             this,
@@ -130,7 +182,7 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
 
         val btnUploadScreenshot = _binding!!.btnSelectReceipt;
 
-        Log.d("Snath ", "Selected Colleges Size "+selectedColleges.size)
+        //Log.d("Snath ", "Selected Colleges Size "+selectedColleges.size)
 
         if (btnUploadScreenshot != null) {
             btnUploadScreenshot.setOnClickListener {
@@ -155,20 +207,107 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
             }
         })
 
-        cdViewModel.courseDetailsState.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is CourseDetailsState.Success -> {
-                    collegeList = state.collegeList.map { it.collegeName }
-                    setupSpinnerForCollegeList(collegeList) // Pass the list to the spinner setup method
-                    Log.d("Snath ", "CollegeList "+collegeList.size)
-                }
 
-                is CourseDetailsState.Error -> {
-                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+        viewModel.courseAvailableState.observe(requireActivity(), Observer { state ->
+            when (state) {
+                is CoursesAvailableState.Error -> Toast.makeText(
+                    requireContext(),
+                    "Oops! Some Error Occurred!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is CoursesAvailableState.Success -> {
+                    coursesAvailable2.addAll(state.courses);
+                    Log.i("Snath ", "" + coursesAvailable2.size)
+                    setupSpinner2(coursesAvailable2)
                 }
             }
         })
 
+        viewModel.courseAvailableState.observe(requireActivity(), Observer { state ->
+            when (state) {
+                is CoursesAvailableState.Error -> Toast.makeText(
+                    requireContext(),
+                    "Oops! Some Error Occurred!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is CoursesAvailableState.Success -> {
+                    coursesAvailable3.addAll(state.courses);
+                    Log.i("Snath ", "" + coursesAvailable3.size)
+                    setupSpinner3(coursesAvailable3)
+                }
+            }
+        })
+
+
+        viewModel.courseAvailableState.observe(requireActivity(), Observer { state ->
+            when (state) {
+                is CoursesAvailableState.Error -> Toast.makeText(
+                    requireContext(),
+                    "Oops! Some Error Occurred!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is CoursesAvailableState.Success -> {
+                    coursesAvailable4.addAll(state.courses);
+                    Log.i("Snath ", "" + coursesAvailable4.size)
+                    setupSpinner4(coursesAvailable4)
+                }
+            }
+        })
+
+
+        viewModel.courseAvailableState.observe(requireActivity(), Observer { state ->
+            when (state) {
+                is CoursesAvailableState.Error -> Toast.makeText(
+                    requireContext(),
+                    "Oops! Some Error Occurred!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is CoursesAvailableState.Success -> {
+                    coursesAvailable5.addAll(state.courses);
+                    Log.i("Snath ", "" + coursesAvailable5.size)
+                    setupSpinner5(coursesAvailable5)
+                }
+            }
+        })
+
+        tenthObtainedMarks.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                // You can add any logic here if needed before text is changed (optional)
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                // Called when the text is being changed
+                 updateScore()
+
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                // Called after the text has been changed
+                val score = updateScore()
+                tenthScore.text = score.toString();
+            }
+        })
+
+        twelfthObtainedMarks.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                // You can add any logic here if needed before text is changed (optional)
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                // Called when the text is being changed
+                updateScore12()
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                // Called after the text has been changed
+                val score = updateScore12()
+                twelfthTenthScore.text = score.toString();
+            }
+        })
 
         return binding?.root;
     }
@@ -256,39 +395,34 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
     // Track selected colleges
 
     private fun setupSpinnerForCollegeList(collegeList: List<String>) {
+        val selectedColleges = HashMap<String, Boolean>()
         val updatedCollegeList = mutableListOf("No course selected")
         updatedCollegeList.addAll(collegeList)
-
         Log.d("Snath", "Selected Colleges Size " + selectedColleges.size)
-
         adapter = CustomCollegeListSpinner(
             requireContext(),
             R.layout.multiselection_spinner,
             updatedCollegeList as ArrayList<String>,
             selectedColleges
         )
-
         // You no longer need to setDropDownViewResource, as we've handled dropdown in getDropDownView
         myAvailableColleges.adapter = adapter
-
         val selectedCollegesForTheCourse = ArrayList<HashMap<String, Boolean>>();
         selectedCollegesForTheCourse.addAll(listOf(selectedColleges))
-
         collegesToCourse.put(selectedCourse, selectedCollegesForTheCourse)
+//        for(item in collegesToCourse.entries){
+//            Log.d("Snath ", "Values "+item + ", "+ collegesToCourse.getValue(item.toString()))
+//        }
 
-        for(item in collegesToCourse.entries){
-            Log.d("Snath ", "Values "+item + ", "+ collegesToCourse.getValue(item.toString()))
-        }
-
-        for ((key, value1) in collegesToCourse.entries) {
-            // Adding some bonus marks to all the students
-            val value = value1;
-
-
-            // Printing above marks corresponding to
-            // students names
-            println("Values $key : $value")
-        }
+//        for ((key, value1) in collegesToCourse.entries) {
+//            // Adding some bonus marks to all the students
+//            val value = value1;
+//
+//
+//            // Printing above marks corresponding to
+//            // students names
+//            println("Values $key : $value")
+//        }
         // Optionally set up an item selected listener for the spinner (collapsed view)
         myAvailableColleges.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -300,7 +434,6 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                 ) {
                     val itemAtPosition: String = myAvailableColleges.getItemAtPosition(position).toString()
                     Log.d("Snath", "Item At Position $itemAtPosition")
-
                     // Update the selectedColleges map based on the item selected
                     if (selectedColleges[itemAtPosition] == true) {
                         // If already selected, unselect it
@@ -309,15 +442,11 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                         // If not selected, select it
                         selectedColleges[itemAtPosition] = true
                     }
-
                     // Notify the adapter to update the spinner view
                     adapter.notifyDataSetChanged()
-
                     // Log the selected colleges
                     Log.d("Snath", "Selected Items: ${selectedColleges.keys}")
-
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // Handle when nothing is selected (if needed)
                     val itemAtPosition: String =
@@ -326,17 +455,217 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     val selectedItems = adapter.getSelectedItems()
                 }
             }
-
 }
 
+    private fun setupSpinnerForCollegeList2(collegeList: List<String>) {
+        val selectedColleges = HashMap<String, Boolean>()
+        val updatedCollegeList = mutableListOf("No course selected")
+        updatedCollegeList.addAll(collegeList)
+        Log.d("Snath", "Selected Colleges Size " + selectedColleges.size)
+        adapter = CustomCollegeListSpinner(
+            requireContext(),
+            R.layout.multiselection_spinner,
+            updatedCollegeList as ArrayList<String>,
+            selectedColleges
+        )
+        // You no longer need to setDropDownViewResource, as we've handled dropdown in getDropDownView
+        myAvailableColleges2.adapter = adapter
+        val selectedCollegesForTheCourse = ArrayList<HashMap<String, Boolean>>();
+        selectedCollegesForTheCourse.addAll(listOf(selectedColleges))
+        collegesToCourse.put(selectedCourse, selectedCollegesForTheCourse)
+        // Optionally set up an item selected listener for the spinner (collapsed view)
+        myAvailableColleges2.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val itemAtPosition: String = myAvailableColleges2.getItemAtPosition(position).toString();
+                    Log.d("Snath", "Item At Position $itemAtPosition")
+                    // Update the selectedColleges map based on the item selected
+                    if (selectedColleges[itemAtPosition] == true) {
+                        // If already selected, unselect it
+                        selectedColleges[itemAtPosition] = false
+                    } else {
+                        // If not selected, select it
+                        selectedColleges[itemAtPosition] = true
+                    }
+                    // Notify the adapter to update the spinner view
+                    adapter.notifyDataSetChanged()
+                    // Log the selected colleges
+                    Log.d("Snath", "Selected Items: ${selectedColleges.keys}")
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Handle when nothing is selected (if needed)
+                    val itemAtPosition: String =
+                        myAvailableColleges2.getItemAtPosition(0).toString()
+                    selectedColleges.put(itemAtPosition, true)
+                    val selectedItems = adapter.getSelectedItems()
+                }
+            }
+    }
+
+    private fun setupSpinnerForCollegeList3(collegeList: List<String>) {
+        val selectedColleges = HashMap<String, Boolean>()
+        val updatedCollegeList = mutableListOf("No course selected")
+        updatedCollegeList.addAll(collegeList)
+        Log.d("Snath", "Selected Colleges Size " + selectedColleges.size)
+        adapter = CustomCollegeListSpinner(
+            requireContext(),
+            R.layout.multiselection_spinner,
+            updatedCollegeList as ArrayList<String>,
+            selectedColleges
+        )
+        // You no longer need to setDropDownViewResource, as we've handled dropdown in getDropDownView
+        myAvailableColleges3.adapter = adapter
+        val selectedCollegesForTheCourse = ArrayList<HashMap<String, Boolean>>();
+        selectedCollegesForTheCourse.addAll(listOf(selectedColleges))
+        collegesToCourse.put(selectedCourse, selectedCollegesForTheCourse)
+        // Optionally set up an item selected listener for the spinner (collapsed view)
+        myAvailableColleges3.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val itemAtPosition: String = myAvailableColleges3.getItemAtPosition(position).toString();
+                    Log.d("Snath", "Item At Position $itemAtPosition")
+                    // Update the selectedColleges map based on the item selected
+                    if (selectedColleges[itemAtPosition] == true) {
+                        // If already selected, unselect it
+                        selectedColleges[itemAtPosition] = false
+                    } else {
+                        // If not selected, select it
+                        selectedColleges[itemAtPosition] = true
+                    }
+                    // Notify the adapter to update the spinner view
+                    adapter.notifyDataSetChanged()
+                    // Log the selected colleges
+                    Log.d("Snath", "Selected Items: ${selectedColleges.keys}")
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Handle when nothing is selected (if needed)
+                    val itemAtPosition: String =
+                        myAvailableColleges3.getItemAtPosition(0).toString()
+                    selectedColleges.put(itemAtPosition, true)
+                    val selectedItems = adapter.getSelectedItems()
+                }
+            }
+    }
+
+
+    private fun setupSpinnerForCollegeList4(collegeList: List<String>) {
+        val selectedColleges = HashMap<String, Boolean>()
+        val updatedCollegeList = mutableListOf("No course selected")
+        updatedCollegeList.addAll(collegeList)
+        Log.d("Snath", "Selected Colleges Size " + selectedColleges.size)
+        adapter = CustomCollegeListSpinner(
+            requireContext(),
+            R.layout.multiselection_spinner,
+            updatedCollegeList as ArrayList<String>,
+            selectedColleges
+        )
+        // You no longer need to setDropDownViewResource, as we've handled dropdown in getDropDownView
+        myAvailableColleges4.adapter = adapter
+        val selectedCollegesForTheCourse = ArrayList<HashMap<String, Boolean>>();
+        selectedCollegesForTheCourse.addAll(listOf(selectedColleges))
+        collegesToCourse.put(selectedCourse, selectedCollegesForTheCourse)
+        // Optionally set up an item selected listener for the spinner (collapsed view)
+        myAvailableColleges4.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val itemAtPosition: String = myAvailableColleges4.getItemAtPosition(position).toString();
+                    Log.d("Snath", "Item At Position $itemAtPosition")
+                    // Update the selectedColleges map based on the item selected
+                    if (selectedColleges[itemAtPosition] == true) {
+                        // If already selected, unselect it
+                        selectedColleges[itemAtPosition] = false
+                    } else {
+                        // If not selected, select it
+                        selectedColleges[itemAtPosition] = true
+                    }
+                    // Notify the adapter to update the spinner view
+                    adapter.notifyDataSetChanged()
+                    // Log the selected colleges
+                    Log.d("Snath", "Selected Items: ${selectedColleges.keys}")
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Handle when nothing is selected (if needed)
+                    val itemAtPosition: String =
+                        myAvailableColleges4.getItemAtPosition(0).toString()
+                    selectedColleges.put(itemAtPosition, true)
+                    val selectedItems = adapter.getSelectedItems()
+                }
+            }
+    }
+
+    private fun setupSpinnerForCollegeList5(collegeList: List<String>) {
+        val selectedColleges = HashMap<String, Boolean>()
+        val updatedCollegeList = mutableListOf("No course selected")
+        updatedCollegeList.addAll(collegeList)
+        Log.d("Snath", "Selected Colleges Size " + selectedColleges.size)
+        adapter = CustomCollegeListSpinner(
+            requireContext(),
+            R.layout.multiselection_spinner,
+            updatedCollegeList as ArrayList<String>,
+            selectedColleges
+        )
+        // You no longer need to setDropDownViewResource, as we've handled dropdown in getDropDownView
+        myAvailableColleges5.adapter = adapter
+        val selectedCollegesForTheCourse = ArrayList<HashMap<String, Boolean>>();
+        selectedCollegesForTheCourse.addAll(listOf(selectedColleges))
+        collegesToCourse.put(selectedCourse, selectedCollegesForTheCourse)
+        // Optionally set up an item selected listener for the spinner (collapsed view)
+        myAvailableColleges5.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val itemAtPosition: String = myAvailableColleges5.getItemAtPosition(position).toString();
+                    Log.d("Snath", "Item At Position $itemAtPosition")
+                    // Update the selectedColleges map based on the item selected
+                    if (selectedColleges[itemAtPosition] == true) {
+                        // If already selected, unselect it
+                        selectedColleges[itemAtPosition] = false
+                    } else {
+                        // If not selected, select it
+                        selectedColleges[itemAtPosition] = true
+                    }
+                    // Notify the adapter to update the spinner view
+                    adapter.notifyDataSetChanged()
+                    // Log the selected colleges
+                    Log.d("Snath", "Selected Items: ${selectedColleges.keys}")
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Handle when nothing is selected (if needed)
+                    val itemAtPosition: String =
+                        myAvailableColleges5.getItemAtPosition(0).toString()
+                    selectedColleges.put(itemAtPosition, true)
+                    val selectedItems = adapter.getSelectedItems()
+                }
+            }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val studentFirstName = binding?.studentFirstName
         val studentLastName = binding?.studentLastName;
         val parentFirstName = binding?.parentFirstName;
-        val parentLastName = binding?.parentLastName;
-        val fullSchoolName = binding?.fullSchoolName;
+        val parentLastName = binding?.fathersLastName;
+        val mothersFirstName = binding?.parentFirstName2;
+        val mothersLastName = binding?.parentLastName2;
         val full12thMarks = binding?.fullTwelfthMarks;
         val full10thMarks = binding?.fullTenthMarks;
         val selectEntrance = binding?.mySpinner;
@@ -348,8 +677,36 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
         val state = binding?.state;
         val pinCode = binding?.pincode;
         val phoneNumber = binding?.phoneNumberInput;
+        ;
+
+
+
+        radioGroupCaste = binding?.casteRadioGroup!!
+        //val radioButtonId = radioGroupCaste.checkedRadioButtonId;
+
         courseWillingInput = binding?.courseWillingInput!!;
         myAvailableColleges = binding?.collegeWillingInput!!
+
+        courseWillingInput2 = binding?.courseWillingInput2!!;
+        myAvailableColleges2 = binding?.collegeWillingInput2!!
+
+        courseWillingInput3 = binding?.courseWillingInput3!!;
+        myAvailableColleges3 = binding?.collegeWillingInput4!!
+
+        courseWillingInput4 = binding?.courseWillingInput4!!;
+        myAvailableColleges4 = binding?.collegeWillingInput5!!
+
+        courseWillingInput5 = binding?.courseWillingInput5!!;
+        myAvailableColleges5 = binding?.collegeWillingInput6!!
+
+        radioGroupCaste.setOnCheckedChangeListener { group, checkedId ->
+
+            // on below line we are getting radio button from our group.
+            val radioButton = view.findViewById<RadioButton>(checkedId)
+
+            // on below line we are displaying a toast message.
+            selectedRadioText = radioButton.text.toString();
+        }
 
         courseAddedLL = binding?.linearLayout!!;
         val submitForm = binding?.formSubmit;
@@ -416,7 +773,7 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
 
         submitForm?.setOnClickListener(View.OnClickListener {
             /**Get the value for each course and selected colleges **/
-            for ((key, value1) in collegesToCourse.entries) {
+            /*for ((key, value1) in collegesToCourse.entries) {
                 var value = value1;
                 for(item in value){
                     for((key1, value2) in item.entries) {
@@ -426,7 +783,79 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     }
                 }
                 println("Values $key : $value ")
+            }*/
+            var selectedCoursesByApplicant = arrayOf<String>();
+            var selectedCollegesByApplicant = arrayOf<String>();
+            var collegeSelectedForCourse = HashMap<String, String>();
+            var selectedKeys = "";
+            var selectedValues = "";
+            for ((key, value1) in collegesToCourse.entries) {
+            var value = value1;
+             for(item in value){
+                 for((key1, value2) in item.entries) {
+                     var insideKey = key1
+                     var insideValue = value2
+                     println("Values1 $insideKey : $insideValue")
+                 }
+             }
+            println("Values $key : $value ")
+
+
+            fun parseInputString(input: String): List<Map<String, Boolean>> {
+                // Remove the outer brackets
+                val content = input.trim().removeSurrounding("[", "]")
+
+                // Split by "}, {" to get individual maps if there are multiple
+                val mapStrings = content.split("}, {").map {
+                    it.removeSurrounding("{", "}")
+                }
+
+                return mapStrings.map { mapString ->
+                    // Split each map string by comma and space to get key-value pairs
+                    mapString.split(", ").associate { pair ->
+                        val (key, value) = pair.split("=")
+                        key to (value.toLowerCase() == "true")
+                    }
+                }
             }
+
+           // val inputString = "[{No course selected=false, Institute of Pharmaceuticals science=true, ST. Pauls College of Pharmacy=true}]"
+             val inputString = value
+            // Parse the string to create a list of maps
+            val inputVal = parseInputString(inputString.toString())
+
+            // Now you can use the inputVal as a List<Map<String, Boolean>>
+            println(inputVal)
+
+            // Convert to comma-separated string
+            val result = inputVal.flatMap { map ->
+                map.entries
+                    .filter { it.value }
+                    .map { it.key }
+            }.joinToString(", ")
+
+            collegeSelectedForCourse.put(key, result)
+
+            for((key3, value3) in collegeSelectedForCourse.entries){
+                Log.d("Snath ", "KeyValue"+key3 +", "+ value3)
+                selectedKeys = key3;
+                selectedValues = value3;
+                selectedCoursesByApplicant = arrayOf(selectedKeys);
+                selectedCollegesByApplicant = arrayOf(selectedKeys+", "+selectedValues);
+                collegeSelectedForCourse.put(key3, value3);
+            }
+
+
+        }
+            Log.d("Snath ", "Courses Applicant "+selectedCoursesByApplicant.joinToString());
+            Log.d("Snath ", "Colleges Applicant "+selectedCollegesByApplicant.joinToString())
+            Log.d("Snath ", "Colleges1 Applicant "+collegeSelectedForCourse)
+//            for((key, value) in collegeSelectedForCourse){
+//                Log.d("Snath ", "Key Applicant "+key +", "+ "Value Applicant "+value)
+//            }
+            val json = (collegeSelectedForCourse as Map<*, *>?)?.let { it1 -> JSONObject(it1) }
+            val jsonString = json.toString()
+            Log.d("Snath ", "JsonString Applicant "+jsonString);
             if(receiptData.size>0) {
                 for ((key, value) in receiptData.entries) {
                     if (key.equals("Amount"))
@@ -468,17 +897,25 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     showErrorToast();
                 }
                 else if (binding?.parentFirstName?.text!!.isEmpty()) {
-                    binding?.parentFirstName?.error = "Please Enter Student's Last Name";
+                    binding?.parentFirstName?.error = "Please Enter Father's Fast Name";
                     showErrorToast();
                 }
-                else if (binding?.parentLastName?.text!!.isEmpty()) {
-                    binding?.parentLastName?.error = "Please Enter Student's Last Name";
+                else if (binding?.fathersLastName?.text!!.isEmpty()) {
+                    binding?.fathersLastName?.error = "Please Enter Father's Last Name";
                     showErrorToast();
                 }
-                else if (binding?.fullSchoolName?.text!!.isEmpty()) {
-                    binding?.fullSchoolName?.error = "Please Enter Student's Last Name";
+                else if (binding?.parentFirstName2?.text!!.isEmpty()) {
+                    binding?.parentFirstName2?.error = "Please Enter Mother's Fast Name";
                     showErrorToast();
                 }
+                else if (binding?.parentLastName2?.text!!.isEmpty()) {
+                    binding?.parentLastName2?.error = "Please Enter Mother's Last Name";
+                    showErrorToast();
+                }
+//                else if (binding?.fullSchoolName?.text!!.isEmpty()) {
+//                    binding?.fullSchoolName?.error = "Please Enter Student's Last Name";
+//                    showErrorToast();
+//                }
                 else if (binding?.fullTwelfthMarks?.text!!.isEmpty()) {
                     binding?.fullTwelfthMarks?.error = "Please Enter Student's Last Name";
                     showErrorToast();
@@ -525,6 +962,51 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     binding?.studentEmailEt?.error = "Please Enter Valid Email"
                     showErrorToast();
                 }
+                else if(binding?.schoolNameEt?.text!!.isEmpty()){
+                    binding?.schoolNameEt?.error = "Please Enter School Name"
+                    showErrorToast();
+                }
+                else if(binding?.passingYearEt?.text!!.isEmpty()){
+                    binding?.passingYearEt?.error = "Please Enter Passing Year"
+                    showErrorToast();
+                }
+                else if(binding?.rollNumberEt?.text!!.isEmpty()){
+                    binding?.rollNumberEt?.error = "Please Enter Roll Number"
+                    showErrorToast();
+                }
+                else if(binding?.totalMarkEt?.text!!.isEmpty()){
+                    binding?.totalMarkEt?.error = "Please Enter Total Marks"
+                    showErrorToast();
+                }
+                else if(binding?.obtainedMarkEt?.text!!.isEmpty()){
+                    binding?.obtainedMarkEt?.error = "Please Enter Obtained Marks"
+                    showErrorToast();
+                }
+                else if(binding?.schoolNameEt12?.text!!.isEmpty()){
+                    binding?.schoolNameEt12?.error = "Please Enter School Name"
+                    showErrorToast();
+                }
+                else if(binding?.passingYearEt12?.text!!.isEmpty()){
+                    binding?.passingYearEt12?.error = "Please Enter Passing Year"
+                    showErrorToast();
+                }
+                else if(binding?.rollNumberEt12?.text!!.isEmpty()){
+                    binding?.rollNumberEt12?.error = "Please Enter Roll Number"
+                    showErrorToast();
+                }
+                else if(binding?.totalMarkEt12?.text!!.isEmpty()){
+                    binding?.totalMarkEt12?.error = "Please Enter Total Marks"
+                    showErrorToast();
+                }
+                else if(binding?.obtainedMarkEt12?.text!!.isEmpty()){
+                    binding?.obtainedMarkEt12?.error = "Please Enter Obtained Marks"
+                    showErrorToast();
+                }
+//                else if(binding?.casteRadioGroup?.id!!.isEmpty()){
+//                    binding?.casteRadioGroup?.error = "Please Select One Value"
+//                    showErrorToast();
+//                }
+
                 else
                  {
                      showInfoToast();
@@ -538,14 +1020,16 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     listConvertedToString = "$listConvertedToString, $item";
                 }
 
-
+                 Log.d("Snath ", "List Converted To String "+listConvertedToString)
                     //validateInputs()
                     viewModel.saveApplicationDetails(
                         binding?.studentFirstName?.text.toString(),
                         binding?.studentLastName?.text.toString(),
                         binding?.parentFirstName?.text.toString(),
-                        binding?.parentLastName?.text.toString(),
-                        binding?.fullSchoolName?.text.toString(),
+                        binding?.fathersLastName?.text.toString(),
+                        binding?.parentFirstName2?.text.toString(),
+                        binding?.parentLastName2?.text.toString(),
+//                      binding?.fullSchoolName?.text.toString(),
                         binding?.fullTwelfthMarks?.text.toString(),
                         binding?.fullTenthMarks?.text.toString(),
                         entranceIdSelected,
@@ -556,10 +1040,23 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                         binding?.state?.text.toString(),
                         binding?.pincode?.text.toString(),
                         binding?.phoneNumberInput?.text.toString(),
-                        listConvertedToString,
+                        selectedCoursesByApplicant.joinToString(),
                         binding?.studentEmailEt?.text.toString(),
                         username,
-                        selectedCollege
+                        jsonString,
+                        binding?.schoolNameEt?.text.toString(),
+                        binding?.passingYearEt?.text.toString(),
+                        binding?.rollNumberEt?.text.toString(),
+                        binding?.totalMarkEt?.text.toString(),
+                        binding?.obtainedMarkEt?.text.toString(),
+                        binding?.scoreEt?.text.toString(),
+                        binding?.schoolNameEt12?.text.toString(),
+                        binding?.passingYearEt12?.text.toString(),
+                        binding?.rollNumberEt12?.text.toString(),
+                        binding?.totalMarkEt12?.text.toString(),
+                        binding?.obtainedMarkEt12?.text.toString(),
+                        binding?.scoreEt12?.text.toString(),
+                        selectedRadioText
                     )
                     showDialog();
                 }
@@ -588,7 +1085,125 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
             }
         })
 
+        cdViewModel.courseDetailsState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is CourseDetailsState.Success -> {
+                    Log.d("Snath ", "Spinner "+spinner);
+                    if(spinner == "1") {
+                        Log.d(
+                            "Snath ",
+                            "CollegeList State " + state + " STATE " + state.collegeList
+                        )
+                        collegeList = state.collegeList.map { it.collegeName } as ArrayList<String>
+                        Log.d("Snath ", "CollegeList " + collegeList.size)
+//                    setupSpinnerForCollegeList(collegeList)
+//                    collegeList.addAll(state.collegeList);
+//                    Log.i("Snath ", "" + collegeList.size)
+//                    for(item in collegeList){
+//                        Log.d("Snath ", "Item1 "+item)
+//                    }
+//                    val collegeNamesList = collegeList.map { it.collegeName }
+                        setupSpinnerForCollegeList(collegeList)// Pass the list to the spinner setup method
+                    }
+                    else if(spinner=="2"){
+                            Log.d(
+                                "Snath ",
+                                "CollegeList State " + state + " STATE " + state.collegeList
+                            )
+                            collegeList2 = state.collegeList.map { it.collegeName } as ArrayList<String>
+                            Log.d("Snath ", "CollegeList " + collegeList2.size)
 
+                            setupSpinnerForCollegeList2(collegeList2)// Pass the list to the spinner setup method
+
+                    }
+                    else if(spinner=="3"){
+                        Log.d(
+                            "Snath ",
+                            "CollegeList State " + state + " STATE " + state.collegeList
+                        )
+                        collegeList3 = state.collegeList.map { it.collegeName } as ArrayList<String>
+                        Log.d("Snath ", "CollegeList " + collegeList3.size)
+
+                        setupSpinnerForCollegeList3(collegeList2)// Pass the list to the spinner setup method
+
+                    }
+                    else if(spinner=="4"){
+                        Log.d(
+                            "Snath ",
+                            "CollegeList State " + state + " STATE " + state.collegeList
+                        )
+                        collegeList4 = state.collegeList.map { it.collegeName } as ArrayList<String>
+                        Log.d("Snath ", "CollegeList " + collegeList4.size)
+
+                        setupSpinnerForCollegeList4(collegeList4)// Pass the list to the spinner setup method
+
+                    }
+                    else if(spinner=="5"){
+                        Log.d(
+                            "Snath ",
+                            "CollegeList State " + state + " STATE " + state.collegeList
+                        )
+                        collegeList5 = state.collegeList.map { it.collegeName } as ArrayList<String>
+                        Log.d("Snath ", "CollegeList " + collegeList5.size)
+
+                        setupSpinnerForCollegeList5(collegeList5)// Pass the list to the spinner setup method
+
+                    }
+                }
+
+                is CourseDetailsState.Error -> {
+                    Log.d("Snath ", "CollegeList State "+state)
+                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        })
+
+    }
+
+    fun updateScore() : Int {
+        var returnedValue =0;
+        var tenthObtained =0;
+        if (tenthTotalMarks!!.text.isNotEmpty() && tenthObtainedMarks!!.text.isNotEmpty()) {
+            val tenthTotal = parseInt(tenthTotalMarks!!.text.toString());
+            try {
+                tenthObtained = parseInt(tenthObtainedMarks!!.text.toString());
+            }
+            catch (ex : NumberFormatException){
+                Toast.makeText(context, "Please enter valid Number", Toast.LENGTH_SHORT).show()
+            }
+            returnedValue =  calculateTenthhScore(tenthTotal, tenthObtained)
+        }
+        return returnedValue;
+    }
+
+    fun updateScore12() : Int {
+        var returnedValue =0;
+        var tfhObtained =0;
+        if (twelfthTotalMarks.text.isNotEmpty() && twelfthObtainedMarks.text.isNotEmpty()) {
+            val tfhTotal = parseInt(twelfthTotalMarks.text.toString());
+            try {
+                tfhObtained = parseInt(twelfthObtainedMarks.text.toString());
+            } catch (ex : NumberFormatException){
+                Toast.makeText(context, "Please enter a valid Number", Toast.LENGTH_SHORT).show()
+            }
+            returnedValue =  calculateTenthhScore(tfhTotal, tfhObtained)
+        }
+        return returnedValue;
+    }
+
+    private fun calculateTenthhScore(tenthTotal: Int, tenthObtained: Int) : Int {
+        Log.d("Snath ", "Total And Obtained "+tenthTotal +", "+tenthObtained)
+        var score = 0;
+        try {
+            // Ensure that the division produces a floating-point result
+            score = Math.floor((tenthObtained.toDouble() / tenthTotal.toDouble()) * 100).toInt()
+            println("Score: $score")
+        } catch (e: RuntimeException) {
+            // Handle exceptions like division by zero or other errors
+            println("Error: ${e.message}")
+        }
+      return score;
     }
 
     private fun showErrorToast() {
@@ -746,9 +1361,215 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                     setTextViews()
                     if (selectedCourse != "Select Course") {
                         // cdViewModel.getCourseListByCollege(selectedCourse);
-                        for (item in addedItems){
-                            //selectedCourse = "$selectedCourse, $item";
-                        }
+//                        if(copiedItems.size>1) {
+//                            for (item in copiedItems) {
+//                                selectedCourse = "$selectedCourse, $item";
+//                            }
+//                        }
+                        Log.d("Snath ", "SCourse "+selectedCourse +" ,"+copiedItems.size);
+                        spinner = "1";
+                        cdViewModel.getCollegeListByCourse(selectedCourse);
+                    }
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle no selection
+            }
+        }
+    }
+
+
+    private fun setupSpinner2(coursesList: List<CoursesAvailableData>) {
+        val updatedCollegeList = mutableListOf("Select Course")
+
+        for (item in coursesList) {
+            updatedCollegeList.addAll(listOf(item.coursename))
+        }
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            updatedCollegeList
+        ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+
+        courseWillingInput2.adapter = adapter
+        courseWillingInput2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedCourse = updatedCollegeList[position]
+                Log.i("Snath ", "position " + position)
+                // Avoid adding the default hint item or duplicates
+                if ((!addedItems.contains(selectedCourse) && !copiedItems.contains(selectedCourse)) && selectedCourse != "Select Course") {
+                    addedItems.clear();
+                    addedItems.add(selectedCourse)
+                    copiedItems.add(selectedCourse);
+                    setTextViews()
+                    if (selectedCourse != "Select Course") {
+                        // cdViewModel.getCourseListByCollege(selectedCourse);
+//                        if(copiedItems.size>1) {
+//                            for (item in copiedItems) {
+//                                selectedCourse = "$selectedCourse, $item";
+//                            }
+//                        }
+                        Log.d("Snath ", "SCourse "+selectedCourse +" ,"+copiedItems.size);
+                        spinner = "2";
+                        cdViewModel.getCollegeListByCourse(selectedCourse);
+                    }
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle no selection
+            }
+        }
+    }
+
+
+    private fun setupSpinner3(coursesList: List<CoursesAvailableData>) {
+        val updatedCollegeList = mutableListOf("Select Course")
+
+        for (item in coursesList) {
+            updatedCollegeList.addAll(listOf(item.coursename))
+        }
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            updatedCollegeList
+        ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+
+        courseWillingInput3.adapter = adapter
+        courseWillingInput3.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedCourse = updatedCollegeList[position]
+                Log.i("Snath ", "position " + position)
+                // Avoid adding the default hint item or duplicates
+                if ((!addedItems.contains(selectedCourse) && !copiedItems.contains(selectedCourse)) && selectedCourse != "Select Course") {
+                    addedItems.clear();
+                    addedItems.add(selectedCourse)
+                    copiedItems.add(selectedCourse);
+                    setTextViews()
+                    if (selectedCourse != "Select Course") {
+                        // cdViewModel.getCourseListByCollege(selectedCourse);
+//                        if(copiedItems.size>1) {
+//                            for (item in copiedItems) {
+//                                selectedCourse = "$selectedCourse, $item";
+//                            }
+//                        }
+                        Log.d("Snath ", "SCourse "+selectedCourse +" ,"+copiedItems.size);
+                        spinner = "3";
+                        cdViewModel.getCollegeListByCourse(selectedCourse);
+                    }
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle no selection
+            }
+        }
+    }
+
+
+
+    private fun setupSpinner4(coursesList: List<CoursesAvailableData>) {
+        val updatedCollegeList = mutableListOf("Select Course")
+
+        for (item in coursesList) {
+            updatedCollegeList.addAll(listOf(item.coursename))
+        }
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            updatedCollegeList
+        ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+
+        courseWillingInput4.adapter = adapter
+        courseWillingInput4.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedCourse = updatedCollegeList[position]
+                Log.i("Snath ", "position " + position)
+                // Avoid adding the default hint item or duplicates
+                if ((!addedItems.contains(selectedCourse) && !copiedItems.contains(selectedCourse)) && selectedCourse != "Select Course") {
+                    addedItems.clear();
+                    addedItems.add(selectedCourse)
+                    copiedItems.add(selectedCourse);
+                    setTextViews()
+                    if (selectedCourse != "Select Course") {
+                        // cdViewModel.getCourseListByCollege(selectedCourse);
+//                        if(copiedItems.size>1) {
+//                            for (item in copiedItems) {
+//                                selectedCourse = "$selectedCourse, $item";
+//                            }
+//                        }
+                        Log.d("Snath ", "SCourse "+selectedCourse +" ,"+copiedItems.size);
+                        spinner = "4";
+                        cdViewModel.getCollegeListByCourse(selectedCourse);
+                    }
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle no selection
+            }
+        }
+    }
+
+
+
+    private fun setupSpinner5(coursesList: List<CoursesAvailableData>) {
+        val updatedCollegeList = mutableListOf("Select Course")
+
+        for (item in coursesList) {
+            updatedCollegeList.addAll(listOf(item.coursename))
+        }
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            updatedCollegeList
+        ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+
+        courseWillingInput5.adapter = adapter
+        courseWillingInput5.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedCourse = updatedCollegeList[position]
+                Log.i("Snath ", "position " + position)
+                // Avoid adding the default hint item or duplicates
+                if ((!addedItems.contains(selectedCourse) && !copiedItems.contains(selectedCourse)) && selectedCourse != "Select Course") {
+                    addedItems.clear();
+                    addedItems.add(selectedCourse)
+                    copiedItems.add(selectedCourse);
+                    setTextViews()
+                    if (selectedCourse != "Select Course") {
+                        // cdViewModel.getCourseListByCollege(selectedCourse);
+//                        if(copiedItems.size>1) {
+//                            for (item in copiedItems) {
+//                                selectedCourse = "$selectedCourse, $item";
+//                            }
+//                        }
+                        Log.d("Snath ", "SCourse "+selectedCourse +" ,"+copiedItems.size);
+                        spinner = "5";
                         cdViewModel.getCollegeListByCourse(selectedCourse);
                     }
                 }
@@ -930,17 +1751,59 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onResume() {
         super.onResume()
-       /* for ((key, value1) in collegesToCourse.entries) {
-            var value = value1;
-             for(item in value){
-                 for((key1, value2) in item.entries) {
-                     var insideKey = key1
-                     var insideValue = value2
-                     println("Values1 $insideKey : $insideValue")
-                 }
-             }
-            println("Values $key : $value ")
-        }*/
+//        Log.d("Snath ", "Radio Button "+selectedRadioText);
+//        for ((key, value1) in collegesToCourse.entries) {
+//            var value = value1;
+//             for(item in value){
+//                 for((key1, value2) in item.entries) {
+//                     var insideKey = key1
+//                     var insideValue = value2
+//                     println("Values1 $insideKey : $insideValue")
+//                 }
+//             }
+//            println("Values $key : $value ")
+//            val collegeSelectedForCourse = HashMap<String, String>();
+//
+//            fun parseInputString(input: String): List<Map<String, Boolean>> {
+//                // Remove the outer brackets
+//                val content = input.trim().removeSurrounding("[", "]")
+//
+//                // Split by "}, {" to get individual maps if there are multiple
+//                val mapStrings = content.split("}, {").map {
+//                    it.removeSurrounding("{", "}")
+//                }
+//
+//                return mapStrings.map { mapString ->
+//                    // Split each map string by comma and space to get key-value pairs
+//                    mapString.split(", ").associate { pair ->
+//                        val (key, value) = pair.split("=")
+//                        key to (value.toLowerCase() == "true")
+//                    }
+//                }
+//            }
+//
+//           // val inputString = "[{No course selected=false, Institute of Pharmaceuticals science=true, ST. Pauls College of Pharmacy=true}]"
+//             val inputString = value
+//            // Parse the string to create a list of maps
+//            val inputVal = parseInputString(inputString.toString())
+//
+//            // Now you can use the inputVal as a List<Map<String, Boolean>>
+//            println(inputVal)
+//
+//            // Convert to comma-separated string
+//            val result = inputVal.flatMap { map ->
+//                map.entries
+//                    .filter { it.value }
+//                    .map { it.key }
+//            }.joinToString(", ")
+//
+//            collegeSelectedForCourse.put(key, result)
+//
+//            for((key3, value3) in collegeSelectedForCourse.entries){
+//                Log.d("Snath ", "KeyValue"+key3 +", "+ value3)
+//            }
+//
+//        }
     }
 
     override fun onStart() {

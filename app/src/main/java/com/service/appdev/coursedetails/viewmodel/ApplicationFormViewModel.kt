@@ -23,24 +23,65 @@ class ApplicationFormViewModel(private val applicationUploadRepository: Applicat
 
 
     @SuppressLint("SuspiciousIndentation")
-    fun saveApplicationDetails(firstName: String, lastName: String,
-                               parentFirstName: String, parentLastName: String,
-                               fullSchoolName: String, twelfthMarks: String,
-                               tenthMarks: String, selectEntranceType: String,
-                               jointEntranceRank: String, streetAddress1: String,
-                               streetAddress2: String, city: String,
-                               state: String, pinCodeStr: String,
-                               phoneNumber: String, courseWillingToStudy: String,
-                               studentEmail : String, username: String, selectedCollege: String){
+    fun saveApplicationDetails(
+        firstName: String,
+        lastName: String,
+        parentFirstName: String,
+        parentLastName: String,
+        mothersFirstName: String,
+        mothersLastName: String,
+        twelfthMarks: String,
+        tenthMarks: String,
+        selectEntranceType: String,
+        jointEntranceRank: String,
+        streetAddress1: String,
+        streetAddress2: String,
+        city: String,
+        state: String,
+        pinCodeStr: String,
+        phoneNumber: String,
+        courseWillingToStudy: String,
+        studentEmail: String,
+        username: String,
+        selectedCollege: String,
+        schoolName: String,
+        passingYear: String,
+        rollNumber: String,
+        totalMarks: String,
+        obtainedMarks: String,
+        scoreTenth: String,
+        schoolName12th: String,
+        passingYear12th: String,
+        rollNumber12th: String,
+        totalMarks12th: String,
+        obtainedMarks12th: String,
+        score12th: String,
+        selectedRadioText: String
+    ){
         viewModelScope.launch {
             try{
               val responseWrapper = applicationUploadRepository.saveApplicationDetails(firstName, lastName, parentFirstName,
                   parentLastName,
-                  fullSchoolName,  twelfthMarks,
+                  mothersFirstName,
+                  mothersLastName,
+                  twelfthMarks,
                   tenthMarks, selectEntranceType,
                   jointEntranceRank, streetAddress1,
                   streetAddress2, city, state, pinCodeStr,
-                  phoneNumber, courseWillingToStudy, studentEmail, username, selectedCollege)
+                  phoneNumber, courseWillingToStudy, studentEmail, username, selectedCollege,
+                  schoolName,
+                  passingYear,
+                  rollNumber,
+                  totalMarks,
+                  obtainedMarks,
+                  scoreTenth,
+                  schoolName12th,
+                  passingYear12th,
+                  rollNumber12th,
+                  totalMarks12th,
+                  obtainedMarks12th,
+                  score12th,
+                  selectedRadioText)
 
                 if (responseWrapper.response.success) {
                     mutableLiveData.value = ApplicationUploadState.Success(responseWrapper.response.message, responseWrapper.response.studentId);

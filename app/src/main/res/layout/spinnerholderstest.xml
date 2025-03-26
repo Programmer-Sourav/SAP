@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_willing_1"
+        android:layout_margin="16dp"
+        android:id="@+id/course_willing"
+       />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder"
+        android:layout_below="@+id/course_willing">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/course_willing_input"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/college_willing"
+        android:layout_margin="16dp"
+        android:id="@+id/college_willing"
+        android:layout_below="@+id/spinnerHolder"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder1"
+        android:layout_below="@+id/college_willing">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:importantForAccessibility="yes"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/college_willing_input"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_willing_2"
+        android:layout_margin="16dp"
+        android:id="@+id/course_willing2"
+        android:layout_below="@+id/spinnerHolder1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder2"
+        android:layout_below="@+id/course_willing2">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/course_willing_input2"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/college_willing"
+        android:layout_margin="16dp"
+        android:id="@+id/college_willing_2"
+        android:layout_below="@+id/spinnerHolder2"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder3"
+        android:layout_below="@+id/college_willing_2">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:importantForAccessibility="yes"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/college_willing_input2"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_willing_3"
+        android:layout_margin="16dp"
+        android:id="@+id/course_willing3"
+        android:layout_below="@+id/spinnerHolder3"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder4"
+        android:layout_below="@+id/course_willing3">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/course_willing_input3"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/college_willing"
+        android:layout_margin="16dp"
+        android:id="@+id/college_willing_3"
+        android:layout_below="@+id/spinnerHolder4"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder5"
+        android:layout_below="@+id/college_willing_3">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:importantForAccessibility="yes"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/college_willing_input4"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_willing_3"
+        android:layout_margin="16dp"
+        android:id="@+id/course_willing4"
+        android:layout_below="@+id/spinnerHolder5"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder6"
+        android:layout_below="@+id/course_willing4">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/course_willing_input4"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/college_willing"
+        android:layout_margin="16dp"
+        android:id="@+id/college_willing_4"
+        android:layout_below="@+id/spinnerHolder6"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder7"
+        android:layout_below="@+id/college_willing_4">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:importantForAccessibility="yes"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/college_willing_input5"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_willing_3"
+        android:layout_margin="16dp"
+        android:id="@+id/course_willing5"
+        android:layout_below="@+id/spinnerHolder7"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder8"
+        android:layout_below="@+id/course_willing5">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/course_willing_input5"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/college_willing"
+        android:layout_margin="16dp"
+        android:id="@+id/college_willing_5"
+        android:layout_below="@+id/spinnerHolder8"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerHolder9"
+        android:layout_below="@+id/college_willing_5">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Select"
+            android:importantForAutofill="no"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:importantForAccessibility="yes"
+            android:dropDownSelector="@color/purple_500"
+            android:id="@+id/college_willing_input6"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/your_popup_background"
+            android:drawableEnd="@drawable/ic_down_arrow" />
+    </LinearLayout>
+
+
+</RelativeLayout>

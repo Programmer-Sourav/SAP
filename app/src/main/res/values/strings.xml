@@ -22,7 +22,11 @@
     <string name="tenth_marks">Madhyamik Marks</string>
     <string name="joint_marks">Entrance Test Marks Details</string>
     <string name="joint_full_marks">Enter Rank</string>
-    <string name="course_willing">Course willing to Study</string>
+    <string name="course_willing_1">Course willing to Study (Preference 1)</string>
+    <string name="course_willing_2">Course willing to Study (Preference 2)</string>
+    <string name="course_willing_3">Course willing to Study (Preference 3)</string>
+    <string name="course_willing_4">Course willing to Study (Preference 4)</string>
+    <string name="course_willing_5">Course willing to Study (Preference 5)</string>
     <string name="college_willing">College willing to Study</string>
     <string name="course_willing_to_take">Engineering/Medical/Nursing/B-Pharm</string>
     <string name="btn_text">Submit Form</string>
@@ -61,7 +65,7 @@
     <string name="success">Dear Admin, Announcement posted Successfully.</string>
     <string name="save_login_details">LOGIN DETAILS</string>
     <string name="selected_courses">Courses Selected By You:</string>
-    <string name="uploadMessage">"Please upload required documents like your Aadhar Card, PAN Card and other Documents. "</string>
+    <string name="uploadMessage">"Please upload required documents. "</string>
     <string name="contact_us_text">Contact Us with your Queries. Give a Call to our career counsellor  -  +91 9774837504</string>
     <string name="userphone">Enter Phone Number</string>
     <string name="logout">Logout</string>
@@ -78,6 +82,27 @@
     <string name="upload_brochures">Upload Brochures</string>
     <string name="waiting">Please Wait...</string>
     <string name="upload_receipt">Upload Payment Screenshot</string>
+    <string name="aadhar_no">Aadhar Number</string>
+    <string name="tenth_qualification">Tenth Qualification</string>
+    <string name="roll_no">Roll Number</string>
+    <string name="total_mark">Total Mark\n</string>
+    <string name="obtained_mark">Obtained Mark</string>
+    <string name="score_mark">Score</string>
+    <string name="sc">SC</string>
+    <string name="st">ST</string>
+    <string name="obc">OBC</string>
+    <string name="ur">UR</string>
+    <string name="pwd">PWD</string>
+    <string name="twelfth_qualification">Twelfth Qualification</string>
+    <string name="passing_year">Passing Year</string>
+    <string name="father_first_name">"Father\'s First Name"</string>
+    <string name="fathers_last_name">"Father\'s Last Name"</string>
+    <string name="mothers_first_name">"Mother\'s First Name"</string>
+    <string name="mothers_last_name">"Mother\'s Last Name"</string>
+    <string name="uploadaadhar">1. Upload Aadhar Card</string>
+    <string name="uploadPancard">2. Upload Pancard</string>
+    <string name="uploadTenthMarksheet">3. Upload Tenth Marksheet</string>
+    <string name="uploadTwelfthApearing">"Upload Twelfth Apearing Certificate and/or Marksheet"</string>
 
 
 </resources>

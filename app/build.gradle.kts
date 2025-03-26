@@ -12,7 +12,7 @@ android {
         applicationId = "com.service.appdev.coursedetails"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
+        versionCode = 3
         versionName = "1.0"
 //        // Enable multidex
 //        multiDexEnabled = true

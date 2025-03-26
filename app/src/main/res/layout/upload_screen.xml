@@ -11,8 +11,55 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:padding="16sp"
+        android:id="@+id/uploadPrompt"
         android:text="@string/uploadMessage"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/uploadPrompt"
+        android:layout_marginTop="8sp"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginLeft="16sp"
+        android:layout_marginRight="16sp"
+        android:textColor="@color/black"
+        android:padding="16sp"
+        android:text="@string/uploadaadhar"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="4sp"
+        android:layout_marginLeft="16sp"
+        android:layout_marginRight="16sp"
+        android:textColor="@color/black"
+        android:padding="16sp"
+        android:text="@string/uploadPancard"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4sp"
+        android:layout_marginLeft="16sp"
+        android:layout_marginRight="16sp"
+        android:id="@+id/uploadTenth"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:padding="16sp"
+        android:text="@string/uploadTenthMarksheet"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4sp"
+            android:layout_marginLeft="16sp"
+            android:layout_marginRight="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:padding="16sp"
+            android:text="@string/uploadTwelfthApearing"/>
+    </LinearLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"

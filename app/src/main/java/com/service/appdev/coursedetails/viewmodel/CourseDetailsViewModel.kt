@@ -57,6 +57,7 @@ class CourseDetailsViewModel(private val collegeManagementRepository: CollegeMan
     }
 
     fun getCourseListByCollege(selectedCollege : String){
+        Log.d("Snath ","CollegeList State "+courseDetailsState)
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 val response = collegeManagementRepository.retrieveCourseDetails(selectedCollege);
@@ -168,5 +169,6 @@ sealed class  CollegeSavedState(){
     data class Success(val message: String) : CollegeSavedState()
     data class Error (val message: String) : CollegeSavedState()
 }
+
 
 
