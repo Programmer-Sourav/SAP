@@ -1080,7 +1080,7 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                 }
 
                 is ApplicationUploadState.Error -> {
-                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), state.error +" Please Try Again!", Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -1106,45 +1106,45 @@ class ApplicationUpload : Fragment(), AdapterView.OnItemSelectedListener {
                         setupSpinnerForCollegeList(collegeList)// Pass the list to the spinner setup method
                     }
                     else if(spinner=="2"){
-                            Log.d(
-                                "Snath ",
-                                "CollegeList State " + state + " STATE " + state.collegeList
-                            )
+//                            Log.d(
+//                                "Snath ",
+//                                "CollegeList State " + state + " STATE " + state.collegeList
+//                            )
                             collegeList2 = state.collegeList.map { it.collegeName } as ArrayList<String>
-                            Log.d("Snath ", "CollegeList " + collegeList2.size)
+                           // Log.d("Snath ", "CollegeList " + collegeList2.size)
 
                             setupSpinnerForCollegeList2(collegeList2)// Pass the list to the spinner setup method
 
                     }
                     else if(spinner=="3"){
-                        Log.d(
-                            "Snath ",
-                            "CollegeList State " + state + " STATE " + state.collegeList
-                        )
+//                        Log.d(
+//                            "Snath ",
+//                            "CollegeList State " + state + " STATE " + state.collegeList
+//                        )
                         collegeList3 = state.collegeList.map { it.collegeName } as ArrayList<String>
-                        Log.d("Snath ", "CollegeList " + collegeList3.size)
+                       //Log.d("Snath ", "CollegeList " + collegeList3.size)
 
-                        setupSpinnerForCollegeList3(collegeList2)// Pass the list to the spinner setup method
+                        setupSpinnerForCollegeList3(collegeList3)// Pass the list to the spinner setup method
 
                     }
                     else if(spinner=="4"){
-                        Log.d(
-                            "Snath ",
-                            "CollegeList State " + state + " STATE " + state.collegeList
-                        )
+//                        Log.d(
+//                            "Snath ",
+//                            "CollegeList State " + state + " STATE " + state.collegeList
+//                        )
                         collegeList4 = state.collegeList.map { it.collegeName } as ArrayList<String>
-                        Log.d("Snath ", "CollegeList " + collegeList4.size)
+                       // Log.d("Snath ", "CollegeList " + collegeList4.size)
 
                         setupSpinnerForCollegeList4(collegeList4)// Pass the list to the spinner setup method
 
                     }
                     else if(spinner=="5"){
-                        Log.d(
-                            "Snath ",
-                            "CollegeList State " + state + " STATE " + state.collegeList
-                        )
+//                        Log.d(
+//                            "Snath ",
+//                            "CollegeList State " + state + " STATE " + state.collegeList
+//                        )
                         collegeList5 = state.collegeList.map { it.collegeName } as ArrayList<String>
-                        Log.d("Snath ", "CollegeList " + collegeList5.size)
+                       // Log.d("Snath ", "CollegeList " + collegeList5.size)
 
                         setupSpinnerForCollegeList5(collegeList5)// Pass the list to the spinner setup method
 

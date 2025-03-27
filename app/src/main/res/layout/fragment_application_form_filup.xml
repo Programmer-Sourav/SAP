@@ -227,7 +227,7 @@
         android:spinnerMode="dropdown"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/edittext_bg"
+
         android:layout_below="@id/joint_marks"
         android:drawableEnd="@drawable/ic_down_arrow"
         android:entries="@array/dropdown_items" />

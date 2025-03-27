@@ -20,6 +20,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.service.appdev.coursedetails.HomeController
 import com.service.appdev.coursedetails.R
 import java.io.File
 
@@ -87,7 +88,9 @@ class UploadScreen : AppCompatActivity() {
                             WorkInfo.State.SUCCEEDED ->{
                                 // Upload succeeded
                                 progressBar.visibility = View.INVISIBLE;
-                                Toast.makeText(this, "Upload successful!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Upload successful! Redirecting to Home...", Toast.LENGTH_LONG).show()
+                                val returnIntent : Intent = Intent(applicationContext, HomeController::class.java);
+                                startActivity(returnIntent);
                             }
                             WorkInfo.State.FAILED ->{
                                 // Upload failed
